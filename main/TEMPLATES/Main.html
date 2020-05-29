@@ -1,0 +1,47 @@
+{% extends "base.html" %}{% load simple_tags %}{% load inclusion_tags %}{% load staticfiles %} {% block title %}{% get_verbose_model_type tipos actual_type %}{% endblock %} {% block content %}
+<!DOCTYPE html>
+<html>
+<title>Turquino DB</title>
+
+
+<body>
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-container">
+        <div class="w3-container">
+            <br>
+            <div class="w3-card-2 w3-row-padding">
+                <form method="post" class="w3-padding inline-form w3-row-padding">
+
+                    {% csrf_token %} {% renderFieldTooltiped form.desde %} {% renderFieldTooltiped form.hasta %}
+
+                    <button style="" class="w3-btn w3-ripple w3-teal w3-padding w3-right">Submit</button>
+
+                </form>
+            </div>
+        </div>
+        <!-- Header -->
+        <div class="w3-container ">
+            <header>
+                <hgroup>
+                    <h5><b>Modelo de: </b></h5>
+                    <h5>{% get_verbose_model_type tipos actual_type %}</h5>
+                    <h5>desde: {{desde}} hasta: {{hasta}}</h5>
+                </hgroup>
+            </header>
+        </div>
+        <div class="w3-container ">
+            <div class="w3-container w3-responsive">
+                <br> {% show_table_type desde hasta actual_type %}
+
+            </div>
+            <br>
+            <button class="w3-btn ">Crear PDF</button>
+        </div>
+        <hr>
+
+    </div>
+</body>
+
+</html>
+
+{% endblock %}

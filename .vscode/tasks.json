@@ -1,0 +1,62 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "migrate",
+            "type": "shell",
+            "command": "python manage.py migrate"
+        },
+        {
+            "label": "shell",
+            "type": "shell",
+            "command": "python manage.py shell",
+            "problemMatcher": []
+        },
+        {
+            "label": "runserver",
+            "type": "shell",
+            "command": "python manage.py runserver 0.0.0.0:8000",
+            "problemMatcher": []
+        },
+        {
+            "label": "makemigrations",
+            "type": "shell",
+            "command": "python manage.py makemigrations"
+        },
+        {
+            "label": "todo",
+            "type": "shell",
+            "command": "python manage.py makemigrations && python manage.py migrate && python manage.py runserver",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "crear superusuario",
+            "type": "shell",
+            "command": "python manage.py createsuperuser"
+        },
+        {
+            "label": "csync database",
+            "type": "shell",
+            "command": "python manage.py migrate --run-syncdb"
+        },
+        {
+            "label": "all in no aparent order",
+            "type": "shell",
+            "command": "python manage.py migrate --run-syncdb && python manage.py makemigrations && python manage.py migrate && python manage.py runserver",
+            "problemMatcher": []
+        },
+        {
+            "label": "flush- empty database",
+            "type": "shell",
+            "command": "python manage.py flush",
+            "problemMatcher": []
+        }
+    ]
+}
+

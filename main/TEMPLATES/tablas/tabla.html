@@ -1,0 +1,24 @@
+{% load simple_tags %}{% load inclusion_tags %}{% block content %}
+
+<table class="w3-table-all w3-centered">
+
+    <thead>
+        {% for i in head %}
+        <tr>
+            {% for ii in i %}
+            <th class="text-center w3-border" contenteditable="true" colspan={% get_colspan_of_cell ii %} rowspan={% get_rowspan_of_cell ii %}>{% get_value_of_cell ii %}</th>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </thead>
+    <tbody>
+        {% for i in data %}
+        <tr>
+            {% for ii in i %}
+            <td class="text-center w3-border" contenteditable="true">{{ ii }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

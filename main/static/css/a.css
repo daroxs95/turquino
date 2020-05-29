@@ -1,0 +1,9 @@
+a {
+    text-decoration: none;
+}
+
+.inline-form * {
+    display: inline-block;
+    /*esto de arriba no esta haciendo nada aqui, al menos no cuando uso w3.css, no he probado de otra forma*/
+    width: auto;
+}

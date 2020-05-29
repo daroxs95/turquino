@@ -1,0 +1,14 @@
+-fix the date changer por get quincena anterior and stuff
+-when reload page make the formsets managament form to be updated, because the count of total forms is not accurate
+-en el form de escojer desde hasta cuando pongo el boton a la derecha con w3-right se escapa del form en pantallas pequennas
+-cambiar q los formsets los meto en tablas, ponerlos en algo parecido pero q cuando se queden sin espacio horizontal brinquen para abajo
+-los tooltip se esconden dentro de la tabla si la pongo responsive
+-fix the look of noscript
+-meter los metodos de save q son estan en las views en los forms , haciendo override de los default
+-ya no se pueden eliminar todos los forms de cada formset pero no esta optima la solucion creo
+-creo q mi modificacion de dynamic formset ya funciona pero no estoy del todo seguro
+-meter el pickproduct para cada formset
+-valorar hacer los tooltips con js en especifico, overlib.js
+-hacer q los tooltips se quiten cuando quites el mouse del elemento aunq aun el puntero este sobre el tooltip
+-pasarle los tipos de consumo a todas las views q usen el menu de forma auto
+-linea 160 de forms.py de django revisar para q es el get item, podria servir para hacer algo como formsets.algointeresante, ac un rato se me ocurrio algo pero no recuerdo now

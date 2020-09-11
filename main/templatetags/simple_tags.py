@@ -32,6 +32,7 @@ def get_vervosename_from_tuple(object, key):
     for i in object:
       if i[0] == key:
         return i[1]
+    return 'BASE DE DATOS VACIA'
 
 @register.simple_tag
 def get_verbose_model_type(tipos, actual_type):

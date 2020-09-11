@@ -1,8 +1,8 @@
-<div class="tooltip" style={{ style }}>{{ field}}{% if field.errors %}
+<div class="tooltip {{ class }}" style={{ style }}>{{ field}}{% if field.errors %}
     <span class="tooltiptext">
     <ul>
     {% for error in field.errors %}
-    <li><strong>{{ error|escape }}  </strong></li>
+    <li><strong>{{ error }}  </strong></li>
     {% endfor %}
     </ul>
 </span> {% endif %}</div>

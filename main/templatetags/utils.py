@@ -1,4 +1,4 @@
-from main.models import Producto, Vale, ValeSalida, EntradaFT, FT, FTS
+from main.models import Producto, Vale, ValeSalida, EntradaFT, FT, FTS , CantidadPredefinida
 
 def calc_consumo(desde, hasta, productos):
     used_products = productos
@@ -134,12 +134,25 @@ def retrive_lst(place,field):
     result.save()
   return result
 
-def initWithData(DATA, prefix):#this is for initing(and needed in a list of formsets) a formset with a DATA dict, appending the formset prefix,
-  initializedDATA = {}
+def retrieve_predefined_production(production_type, amount):
+  items = CantidadPredefinida.objects.filter(tipo_de_produccion = production_type)
+  result = []
+  for item in items:
+    result.append({'producto':Producto.objects.filter(name = item.producto_name).order_by('-last_exit')[0],'cantidad':float(amount)*item.cantidad})
+  return result
 
-  for key in DATA.keys():
-    initializedDATA[prefix +"-"+ key] = DATA[key]
-    
-  return initializedDATA
+def create_DATA_for_formset_with_custom_forms(prefix, list_of_Dict_of_fields):#list_of_Dict_of_fields is the returned object of retrieve_predefined_production
+  DATA = {}
+  total_forms = 0
+  initial_forms = 0
+  for dict_of_fields in list_of_Dict_of_fields:
+    for key in dict_of_fields:
+      DATA[prefix+'-'+str(total_forms)+'-'+key] = dict_of_fields[key]
+    total_forms = total_forms + 1
+  DATA[prefix+'-'+'TOTAL_FORMS'] = total_forms
+  DATA[prefix+'-'+'INITIAL_FORMS'] = initial_forms
+
+  return DATA
+
 
 defLST = {'actual_type': 'PN', 'desde': '2010-10-10','hasta': '2020-10-10'}

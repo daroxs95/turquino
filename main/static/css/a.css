@@ -7,3 +7,42 @@ a {
     /*esto de arriba no esta haciendo nada aqui, al menos no cuando uso w3.css, no he probado de otra forma*/
     width: auto;
 }
+
+.delete-formset:hover,
+.delete-row:hover {
+    color: red !important;
+    cursor: pointer;
+}
+
+.add-row-cross-btn:hover {
+    color: teal !important;
+    cursor: pointer;
+}
+
+.dynamic-fformset .w3-select,
+.dynamic-fformset .w3-input,
+#PredefinedAmountModalForm .w3-input,
+#PredefinedAmountModalForm .w3-select {
+    margin-bottom: 4px;
+    min-width: 100px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    /*border-bottom: 1px dotted black;*/
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: auto;
+    position: absolute;
+}
+
+.new-product {
+    padding-top: 8px;
+}
+
+.w3-select {
+    height: 40px;
+}

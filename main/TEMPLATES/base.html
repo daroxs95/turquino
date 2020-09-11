@@ -3,15 +3,14 @@
 <html>
 
 <link href="{%static  '/css/jquery-ui.css' %}" rel="stylesheet">
-<script src="{%static  '/scripts/jquery.js' %}"></script>
+<script src="{%static  '/scripts/jquery-3.4.1.js' %}"></script>
 <script src="{%static  '/scripts/jquery-ui.js' %}"></script>
 <script src="{%static  '/scripts/jQuery_mios/functions.js' %}"></script>
 
 <link href="{%static  '/css/w3.css' %}" rel="stylesheet">
 <link href="{%static  '/css/a.css' %}" rel="stylesheet">
-<link href="{%static  '/css/fieldTooltip.css' %}" rel="stylesheet">
-
-
+<link href="{%static  '/css/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
+<link href="{%static  '/css/metrize_icons/style.css' %}" rel="stylesheet">
 
 
 
@@ -58,8 +57,10 @@
         <li><a href=/admin>Admin</a></li>
         <li class="w3-dropdown-hover w3-teal w3-right">
             <a>Agregar</a>
-            <ul class="w3-dropdown-content">
+            <ul class="w3-dropdown-content" style="right:0">
                 <a href=/nuevo_vale>Vale</a>
+                <a href=/nueva_FT>Factura/Traslado</a>
+                <a href=/nueva_produccion>Producción</a>
             </ul>
         </li>
 
@@ -69,5 +70,9 @@
     </div>
 </body>
 
+<br>
+
+<footer>
+</footer>
 
 </html>

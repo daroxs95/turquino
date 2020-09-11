@@ -6,7 +6,8 @@
         {
             "label": "migrate",
             "type": "shell",
-            "command": "python manage.py migrate"
+            "command": "python manage.py migrate",
+            "problemMatcher": []
         },
         {
             "label": "shell",
@@ -23,7 +24,8 @@
         {
             "label": "makemigrations",
             "type": "shell",
-            "command": "python manage.py makemigrations"
+            "command": "python manage.py makemigrations",
+            "problemMatcher": []
         },
         {
             "label": "todo",
@@ -38,12 +40,14 @@
         {
             "label": "crear superusuario",
             "type": "shell",
-            "command": "python manage.py createsuperuser"
+            "command": "python manage.py createsuperuser",
+            "problemMatcher": []
         },
         {
             "label": "csync database",
             "type": "shell",
-            "command": "python manage.py migrate --run-syncdb"
+            "command": "python manage.py migrate --run-syncdb",
+            "problemMatcher": []
         },
         {
             "label": "all in no aparent order",

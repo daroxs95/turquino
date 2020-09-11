@@ -1,16 +1,17 @@
 from django.contrib import admin
-from .models import Producto, EntradaFT, ValeSalida, Vale, SalidaFT, FT, FTS, Final, LastSession, Tipos
+from .models import Producto, EntradaFT, ValeSalida, Vale, SalidaFT, FT, FTS, Final, LastSession, Tipos, CantidadPredefinida
+from .forms import CantidadPredefinidaAdminForm 
 
 # Register your models here.
 @admin.register(Producto)
 class ProductoAdmin(admin.ModelAdmin):
-    list_display = ('name','precio')
-    list_filter = ('name','precio')
-    search_fields = ('name','precio')
+    list_display = ('name','precio','last_exit')
+    list_filter = ('name','precio','last_exit')
+    search_fields = ('name','precio','last_exit')
     prepopulated_fields = {'identificador': ('precio','name')}
     #raw_id_fields = ('name',)
     date_hierarchy = 'created'
-    ordering = ('name','precio')
+    ordering = ('name','precio','last_exit')
 
 @admin.register(EntradaFT)
 class EntradaAdmin(admin.ModelAdmin):
@@ -18,7 +19,9 @@ class EntradaAdmin(admin.ModelAdmin):
     list_filter = ('producto','Procedencia','No_documento')
     search_fields = ('producto','Procedencia','No_documento')
     ordering = ('dia','No_documento')
-    date_hierarchy = 'created'   
+    date_hierarchy = 'created'
+    prepopulated_fields = {'identificador': ('No_documento','dia')}
+
 
 @admin.register(SalidaFT)
 class SalidaAdmin(admin.ModelAdmin):
@@ -27,6 +30,8 @@ class SalidaAdmin(admin.ModelAdmin):
     search_fields = ('producto','Destino','No_documento')
     ordering = ('dia','No_documento')
     date_hierarchy = 'created' 
+    prepopulated_fields = {'identificador': ('No_documento','dia')}
+
 
 
 @admin.register(ValeSalida)
@@ -79,3 +84,11 @@ class LastSessionAdmin(admin.ModelAdmin):
 class TiposAdmin(admin.ModelAdmin):
     pass
     
+@admin.register(CantidadPredefinida)
+class CantidadPredefinidaAdmin(admin.ModelAdmin):
+    list_display = ('tipo_de_produccion','producto_name','cantidad')
+    list_filter = ('tipo_de_produccion','producto_name','cantidad')
+    search_fields = ('tipo_de_produccion','producto_name','cantidad')
+    date_hierarchy = 'created'
+    ordering = ('tipo_de_produccion','producto_name','cantidad')
+    form = CantidadPredefinidaAdminForm

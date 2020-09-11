@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from datetime import date
+from datetime import date , datetime
 
 # Create your models here.
 
@@ -10,7 +10,6 @@ class LastSession(models.Model):
     
     objects = models.Manager()
 
-
 class Producto(models.Model):
     name = models.CharField(max_length=80)
 
@@ -18,8 +17,19 @@ class Producto(models.Model):
     identificador = models.CharField(max_length=80,primary_key=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    last_exit = models.DateTimeField(default = datetime.now, editable = False)#0,0 if never used, check if on editable = false, it can be edited outside the django admin 
+
     objects = models.Manager()
-    
+    @classmethod
+    def names_as_list(self):       
+        allPRODUCTS = self.objects.all()
+        productlist = []
+        try:
+            for product in allPRODUCTS:
+                productlist.append([product.name,product.name])
+        except: return []#ver si puedo retornar algo con sentido y q no sea None
+        return productlist
+
     def __str__(self):
         return self.name+" "+str(self.precio)
 
@@ -29,7 +39,9 @@ class EntradaFT(models.Model):
     Procedencia = models.CharField(max_length=80)
     No_documento = models.CharField(max_length=80)
     producto = models.ManyToManyField(Producto,through='FT',verbose_name="Producto que entra")
-    dia = models.DateField(default=timezone.now)
+    dia = models.DateField(default=datetime.now)
+    
+    identificador = models.CharField(max_length=80,primary_key=True)
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -40,9 +52,11 @@ class EntradaFT(models.Model):
 
 class SalidaFT(models.Model):
     Destino = models.CharField(max_length=80)
-    No_documento = models.CharField(max_length=80,primary_key=True)
+    No_documento = models.CharField(max_length=80)
     producto = models.ManyToManyField(Producto,through='FTS',verbose_name="Producto que sale")
-    dia = models.DateField(default=timezone.now)
+    dia = models.DateField(default=datetime.now)
+
+    identificador = models.CharField(max_length=80,primary_key=True)
 
     created = models.DateTimeField(auto_now_add=True,null=True)
     updated = models.DateTimeField(auto_now=True)
@@ -83,7 +97,7 @@ class Tipos(models.Model):
 class Vale(models.Model):
     valesalida = models.ForeignKey(ValeSalida, on_delete=models.CASCADE)
     tipo_de_produccion = models.ForeignKey(Tipos, on_delete=models.CASCADE)
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE,verbose_name="Producto usado")  
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE,verbose_name="Producto usado")
     cantidad = models.FloatField(default = 0)
     importe = models.FloatField(default = 0)
 
@@ -91,12 +105,16 @@ class Vale(models.Model):
     updated = models.DateTimeField(auto_now=True)
     objects = models.Manager()
     
-    @classmethod
+    def save(self, *args, **kwargs):
+        super(Vale,self).save( *args, **kwargs)
+        print(self.producto.last_exit)
+        self.producto.last_exit = datetime.now()
+        self.producto.save()
+    
+    @staticmethod
     def fields(self):
         return ('valesalida', 'producto','cantidad', 'importe',)
 
-
-            
 class FT(models.Model):
     entradaFt = models.ForeignKey(EntradaFT, on_delete=models.CASCADE)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)  
@@ -118,7 +136,7 @@ class FTS(models.Model):
     objects = models.Manager()
 
 class Final(models.Model):
-    dia = models.DateField(default=timezone.now)
+    dia = models.DateField(default=datetime.now)
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)     
     cantidad = models.FloatField(default = 0)
     importe = models.FloatField(default = 0)
@@ -127,4 +145,12 @@ class Final(models.Model):
     updated = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
+class CantidadPredefinida(models.Model):
+    tipo_de_produccion = models.ForeignKey(Tipos, on_delete=models.CASCADE)
+    producto_name = models.CharField(max_length=80, primary_key=True)
+    cantidad = models.FloatField(default = 0)
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
 

@@ -1,5 +1,12 @@
-from main.templatetags.utils import initWithData#la idea es no usar esto aqui pero sera cuando implemente bien el init, UPDT:creo q ya esta bien implementado, pero sigo necesitando esto para cuando no probeo initial data
 from django.utils.safestring import mark_safe
+
+def initWithData(DATA, prefix):#this is for initing(and needed in a list of formsets) a formset with a DATA dict, appending the formset prefix,
+    initializedDATA = {}
+
+    for key in DATA.keys():
+        initializedDATA[prefix +"-"+ key] = DATA[key]
+    
+    return initializedDATA
 
 def formsets_factory(formset, DEFAULT_DATA = None):
     formsets = Formsets
@@ -34,7 +41,7 @@ class Formsets():
         
         for index in range(self.TOTAL_FORMSETS):
             #self.formsetsDict[prefix+str(index)] = formset(initWithData(DATA, prefix+str(index)), prefix = prefix+str(index))            
-            self.formsetsDict[self.prefix+str(index)] = self.formset(DATA or initWithData(self.DEFAULT_DATA, self.prefix+str(index)), prefix = self.prefix+str(index))#TODO:take this out, to where is instantiated the class, that way isnt needed too many args
+            self.formsetsDict[self.prefix+'-'+str(index)] = self.formset(DATA or initWithData(self.DEFAULT_DATA, self.prefix+'-'+str(index)), prefix = self.prefix+'-'+str(index))#TODO:take this out, to where is instantiated the class, that way isnt needed too many args
     
     def __iter__(self):
         return self.formsets_iterator(self)
@@ -62,6 +69,9 @@ class Formsets():
                 formset.save()
         return False
     
+    def size(self):
+        return len(self.formsetsDict)
+ 
     class formsets_iterator():
         ''' Iterator class '''
         def __init__(self, formset):

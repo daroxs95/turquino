@@ -1,0 +1,73 @@
+{% extends "base.html" %}{% load simple_tags %}{% load inclusion_tags %}{% load filter_tags %}{% load staticfiles %}{% block title %}Nuevo Vale{% endblock %} {% block content %}
+<!DOCTYPE html>
+<html>
+<title>Turquino DB</title>
+
+<script src="{%static  '/scripts/dinamicFORMSET.js' %}"></script>
+<script src="{%static  '/scripts/dinamicFORMSETnuevoVale.js' %}"></script>
+
+<body class="w3-light-grey">
+
+
+    <!-- !PAGE CONTENT! -->
+
+    <div class="w3-container ">
+        <br>
+        <form method="post" autocomplete="off">
+            {% csrf_token %}
+            <div class="w3-container w3-form w3-card-2">
+                {% renderFieldTooltiped valesalidaform.No_documento %} {% renderFieldTooltiped valesalidaform.dia %}
+
+            </div>
+
+            <br> {% comment %} si pongo
+            <div class="w3-responsive"> se me oculta un pedazo del tooltip detras de la tabla {% endcomment %}
+                <table class="w3-form w3-table w3-table-all w3-container w3-card-2 w3-animate-opacity dynamic-fformset">
+                    {{ formsets.management_form }} {{ pickProductFormset.management_form }} {% for formset, products in formsets|zip:pickProductFormset %}
+                    <tr id='{{ formset.prefix }}-formset' class="dynamic-formset">
+                        <td class="text-center w3-border w3-animate-opacity d-display">
+                            {% renderFieldTooltiped products.tipo 'width:100%' %}
+                            <input class="w3-input" style="visibility: hidden">
+                            <i title="Agregar produto" class="fa fa-plus w3-xlarge w3-text-grey add-row add-row-cross-btn" type="button?" value="add" to={{ formset.prefix }}></i>
+                            <i title="Eliminar producción" id="remove-{{ formset.prefix }}-formset" class="fa fa-minus w3-xlarge w3-text-grey delete-formset" type="button?" from={{ formsets.prefix }}></i>
+                        </td>
+
+                        {{ formset.management_form }} {% for form in formset.forms %}
+                        <td id="{{ form.prefix }}-row" class="dynamic-form text-center w3-border w3-animate-opacity">
+                            {% renderFieldTooltiped form.producto 'width:100%' %} {% renderFieldTooltiped form.cantidad 'width:100%' %}
+
+                            <i title="Eliminar producto" id="remove-{{ form.prefix }}-row" class="fa fa-minus w3-xlarge w3-text-grey delete-row w3-right" type="button?" from={{ formset.prefix }}></i>
+                        </td> {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </table>
+                <br>
+
+                <button title="Agrega una nueva fila vacía" class="w3-btn w3-gray add-formset" type="button" to={{ formsets.prefix }} name="add_blank">Agregar Producción en blanco</button>
+                <button title="Agrega una nueva fila con valores a escojer" class="w3-btn w3-gray add-formset-filled" type="button" to={{ formsets.prefix }} name="add_filled">Agregar Producción</button>
+                <button title="Guarda el vale en la Base de Datos" class="w3-btn" type="submit" value="save">Guardar</button>
+        </form>
+        </div>
+
+        <div id="PredefinedAmountModalForm" class="w3-modal">
+            <div class="w3-modal-content w3-card-8 w3-animate-bottom" style="max-width:600px">
+
+                <form id="PredefinedAmountModalForm_FORM" class="w3-container" action="">
+                    <div class="w3-section">
+                        {% renderFieldTooltiped cantidadPredefinidaForm.producto_name 'width:100%' %} {% renderFieldTooltiped cantidadPredefinidaForm.cantidad 'width:100%' %}
+                    </div>
+
+                    <button onclick="document.getElementById('PredefinedAmountModalForm').style.display='none'" type="button" class="w3-btn w3-red">Cancel</button>
+                    <button class="w3-btn w3-green w3-right add-formset-filled-modal-button" type="submit">Agregar</button>
+
+                </form>
+                <br>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+
+{% endblock %}

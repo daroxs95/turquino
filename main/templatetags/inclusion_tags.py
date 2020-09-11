@@ -24,18 +24,18 @@ def make_consumo_table(desde, hasta, table_type):
         used_products_verbose_name.append(item.producto.name)
         prices.append(item.producto.precio)
       
-      if is_in(item.valesalida.No_documento,vales_salida) == False:
-        vales_salida.append(item.valesalida.No_documento)  
+      if is_in(item.valesalida.identificador,vales_salida) == False:
+        vales_salida.append(item.valesalida.identificador)  
 
 
     for i in vales_salida:
        cached_rows=[]
-       cached_rows.append(i)
+       cached_rows.append(a.filter(valesalida__identificador = i)[0].valesalida.No_documento)#revisar si esto sirve, creo q si pero no estoy seguro
        
        for ii in used_products:
           cell_cantidad = 0
 
-          for item in a.filter(valesalida__No_documento = i):
+          for item in a.filter(valesalida__identificador = i):
             if is_in(item.valesalida.dia,cached_rows) == False:
               cached_rows.append(item.valesalida.dia)
             if item.producto == ii:
@@ -366,10 +366,11 @@ def show_table_type(desde, hasta ,table_type):
     return make_consumo_table(desde, hasta ,table_type)
 
 @register.inclusion_tag("fieldTooltip.html")
-def renderFieldTooltiped(field, style=""):
+def renderFieldTooltiped(field, style="", css_class=""):
     
     return {
       "style":style,
-        "field":field,
+      "field":field,
+      "class":css_class
         
     }

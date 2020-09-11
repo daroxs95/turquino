@@ -1,0 +1,16 @@
+{% load simple_tags %}{% load inclusion_tags %}{% load filter_tags %}{% load staticfiles %}
+        <tr id='{{ formset.prefix }}-formset' class="dynamic-formset">
+            <td class="text-center w3-border w3-animate-opacity d-display">
+                {% renderFieldTooltiped products.tipo 'width:100%' %}
+                <input class="w3-input" style="visibility: hidden">
+                <i title="Agregar produto" class="fa fa-plus w3-xlarge w3-text-grey add-row" type="button?" value="add" to={{ formset.prefix }}></i>
+                <i title="Eliminar producción" id="remove-{{ formset.prefix }}-formset" class="fa fa-minus w3-xlarge w3-text-grey delete-formset" type="button?" from={{ formsets.prefix }}></i>
+            </td>
+
+            {{ formset.management_form }} {% for form in formset.forms %}
+            <td id="{{ form.prefix }}-row" class="dynamic-form text-center w3-border w3-animate-opacity">
+                {% renderFieldTooltiped form.producto 'width:100%' %} {% renderFieldTooltiped form.cantidad 'width:100%' %}
+
+                <i title="Eliminar producto" id="remove-{{ form.prefix }}-row" class="fa fa-minus w3-xlarge w3-text-grey delete-row w3-right" type="button?" from={{ formset.prefix }}></i>
+            </td> {% endfor %}
+        </tr>

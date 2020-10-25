@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% load simple_tags %}{% load inclusion_tags %}{% load filter_tags %}{% load staticfiles %}{% block title %}Nuevo Vale{% endblock %} {% block content %}
+<!DOCTYPE html>
+<html>
+<title>Turquino DB</title>
+
+<body class="w3-light-grey">
+
+
+    <!-- !PAGE CONTENT! -->
+    <br>
+    <div class="w3-container w3-card-2">
+        <br>
+        {% renderTooltipedModalForm form %}
+    </div>
+
+</body>
+
+</html>
+
+{% endblock %}

@@ -1,6 +1,8 @@
 import io
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
+from django.utils import timezone
+
 from main.models import Producto, Vale, ValeSalida,LastSession, Tipos, CantidadPredefinida
 from .forms import GetModelForm, ValeFormset, ValeSalidaForm, PickProductFormset, CantidadPredefinidaFormset
 from .forms import ValeFormsets, PickProductForm, CantidadPredefinidaFillForm, ProduccionForm
@@ -79,7 +81,19 @@ def GetProductionFormset(request):
     return render(request,'production_formset.html',{'formset':formset,
                                     'products':PPForm,
                                     })
-        
+
+def AddProduct(request):
+    form = ProductoForm(request.POST or None)
+
+    if request.method =='POST':
+        if form.is_valid():
+            form2save = form.save(commit=False)
+            form2save.created = timezone.now()
+            form2save.identificador = str(form2save.precio) + '-'+ form2save.name
+            form2save.save()
+
+    return render(request,'addProduct_form.html',{'form':form,})
+
 def NuevoVale(request):
     DATA = {
         'formsets-TOTAL_FORMSETS':'2',

@@ -1,0 +1,20 @@
+{% load inclusion_tags %}
+
+
+    <form method="post" id="modalForm" class="w3-container" action={{ action }}>
+        {% csrf_token %}
+        <div class="w3-section">
+            {% for field in form %}
+                {% renderFieldTooltiped field 'width:100%' %}
+                <br>
+                <br>
+            {% endfor %}
+        </div>
+        {% if  modal == True %}
+            <button onclick="document.getElementById('{{ modal_name }}').style.display='none'" type="button" class="w3-btn w3-red">Cancel</button>
+            <button class="w3-btn w3-green w3-right" type="submit">Agregar</button>
+        {% else %}
+            <button class="w3-btn w3-grey" type="submit">Agregar</button>
+        {% endif %}
+    </form>
+    <br>

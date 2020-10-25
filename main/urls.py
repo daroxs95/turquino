@@ -21,6 +21,7 @@ from . import views
 app_name = 'main'
 
 urlpatterns = [
+    path('nuevo_product', views.AddProduct, name = 'Add_Product'),
     path('getProduccionFormset', views.GetProductionFormset, name = 'Get_Production_Formset'),
     path('nueva_produccion', views.NuevaProduccion, name = 'Nueva_Produccion'),
     path('nueva_FT', views.NuevaFT, name = 'Nueva_FT'),

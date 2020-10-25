@@ -374,3 +374,12 @@ def renderFieldTooltiped(field, style="", css_class=""):
       "class":css_class
         
     }
+
+@register.inclusion_tag("forms/basicForm.html")
+def renderTooltipedModalForm(form, modal_name="", modal = False, action = ""):
+    return {
+      "form":form,
+      "modal_name":modal_name,
+      "modal": modal,
+      "action": action
+    }

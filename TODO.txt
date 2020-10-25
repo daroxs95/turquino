@@ -11,12 +11,8 @@
 -en pedorra el fondo de los select en los forms salen con otro color
 -en jquery de los vales en vez de no dejar borrar el formset 0, no dejar borrar el formset si es el unico q queda
 -set something as minimal width for inputs
-    -meter el pickproduct para cada formset, UPDT: presumo q esta solved, hice dos formsets e itero sobre ellos
-    -valorar hacer los tooltips con js en especifico, overlib.js, UPDT:creo q con jquery mejor,UPDT:lo puse con jquery
-    -hacer q los tooltips se quiten cuando quites el mouse del elemento aunq aun el puntero este sobre el tooltip,UPDT:con jquery se soluciono
     -arreglar la identidad entre no_de_documento y fecha de los vales de salida, como el vale tiene identificador dependiende de ambos parece q en el templatetag no tengo en cuenta ese id y me sale el mismo vale con dos fechas en el modelo de consumo,ver img_error_1.jpg
     -when reload page make the formsets managament form to be updated, because the count of total forms is not accurate,UPDT:con autocomplete="off" en el form tag se soluciona pero no se mantienen los datos introducidos al hacer reload,no he probado al intentar guardar
-    -los tooltip se esconden dentro de la tabla si la pongo responsive,UPDT:con jquery no
 -fix navigation through tabs and enter, UPDT: presumo q esta fixed al menos para el enter en el modal de add predefined production
 -para q la lista de productos de CantidadesPredefinidas, a la hora de annadirlo en el admin de django salga actualizada, tengo q reiniciar el server
     -el boton del form de annadir predefinido ejecuta el jquery aunq este mal rellenado el form, UPDT:presumo solved
@@ -32,3 +28,5 @@
 -implement landing page
 -view annadir nueva factura/traslado arreglar el boton de annadir producto para q aparesca siempre al lado del select
 -poner el autocomplete off en los campos necesarios no en todo el form, creo q los campos son los del management form
+-implementar errores en todas las vistas
+-el autocomplete on de el form en annadir FT, no funciona en chrome pero si en FF, lo quiero para q cuando se recargue la pagina se quede rellenado

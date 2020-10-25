@@ -43,8 +43,19 @@
                 </table>
                 <br>
 
+                <table style="display:none" class="w3-form w3-table w3-table-all w3-container w3-card-2 w3-animate-opacity table-totals" >
+                    <tr>
+                        <td class="col-total">
+                            <span name="formsets-0-0-cantidad" class="w3-input w3-border" id="id_formsets-0-0-cantidad">Producto</span>
+                            <span name="formsets-0-0-cantidad" class="w3-input w3-border" id="id_formsets-0-0-cantidad">0.001</span>
+                        </td>
+                    </tr>
+                </table>
+
+                <br>
+                <button title="Calcula los totales del vale" class="w3-btn w3-gray calc-totals" type="button" to="table-totals" name="calc_totals">Calcular totales</button>
                 <button title="Agrega una nueva fila vacía" class="w3-btn w3-gray add-formset" type="button" to={{ formsets.prefix }} name="add_blank">Agregar Producción en blanco</button>
-                <button title="Agrega una nueva fila con valores a escojer" class="w3-btn w3-gray add-formset-filled" type="button" to={{ formsets.prefix }} name="add_filled">Agregar Producción</button>
+                <button title="Agrega una nueva fila con valores a escojer" class="w3-btn w3-gray add-formset-filled" type="button" to={{ formsets.prefix }} name="add_filled" >Agregar Producción</button>
                 <button title="Guarda el vale en la Base de Datos" class="w3-btn" type="submit" value="save">Guardar</button>
         </form>
         </div>

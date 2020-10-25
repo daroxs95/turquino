@@ -46,5 +46,18 @@ $(function() {
 
     $('.dynamic-fformset').on('click', '.delete-formset', function() {
         return deleteFormset(this, $(this).attr("from"), 'pickPFormset');
-    })
+    });
+
+    $('.calc-totals').on('click', function() {
+        calcTotals($(this).attr("to"));
+        $('.' + $(this).attr("to")).show();
+    });
 })
+
+const calcTotals = (to) => {
+    let used = [];
+    let col = $('.' + to).children().children('.col-total').clone(true);
+    $("[id^='formsets-']").each(element => {
+        alert(element.find('option').val);
+    });;
+}

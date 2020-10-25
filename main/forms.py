@@ -111,7 +111,7 @@ class ProductoForm(forms.ModelForm):
     class Meta:
             model = Producto
             fields = ['name', 'precio']
-            widgets = {'name': forms.TextInput(attrs={'class':'w3-input w3-border','placeholder':'Normbre',
+            widgets = {'name': forms.TextInput(attrs={'class':'w3-input w3-border','placeholder':'Nombre',
                                                    "required":""}),
                         'precio':forms.NumberInput(attrs={'class':'w3-input w3-border','placeholder':'Precio',
                                                    "required":""})

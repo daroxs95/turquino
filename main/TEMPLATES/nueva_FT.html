@@ -4,7 +4,7 @@
 <title>Turquino DB</title>
 
 <script src="{%static  '/scripts/dinamicFORMSET.js' %}"></script>
-<script src="{%static  '/scripts/dinamicFORMSETnuevaProduccion.js' %}"></script>
+<script src="{%static  '/scripts/dinamicFORMSETnuevaFT.js' %}"></script>
 
 <body class="w3-light-grey">
 
@@ -13,7 +13,7 @@
 
     <div class="w3-container ">
         <br>
-        <form  method="post" autocomplete="off">
+        <form  method="post" autocomplete="on">
             {% csrf_token %}
             <div class="w3-row w3-form w3-card-2">
                 {% renderFieldTooltiped entradaFTForm.tipo css_class='w3-col l3 m3'%}
@@ -29,8 +29,6 @@
                     <td id="{{ form.prefix }}-row" class="dynamic-form text-center w3-border w3-animate-opacity">
                         <div class='w3-row'>
                             {% renderFieldTooltiped form.producto css_class='w3-col l11 m11 s11'%}
-                            {% renderFieldTooltiped productoForm.name 'display:none' css_class='w3-col l11 m11 s11'%}
-                            {% renderFieldTooltiped productoForm.precio 'display:none' css_class='w3-col l11 m11 s11'%}
 
                             <i title="Agregar nuevo produto" class="fa fa-plus w3-right w3-xlarge w3-text-grey new-product add-row-cross-btn" type="button?" value="add" to=""></i>
                         </div>
@@ -46,6 +44,13 @@
             <button title="Agregar produto" class="w3-btn w3-gray add-row" type="button" to={{ formset.prefix }}>Agregar</button>
             <button title="Guarda la producción en la Base de Datos" class="w3-btn" type="submit" value="save">Guardar</button>
         </form>
+
+        <div id="AddProductModalForm" class="w3-modal">
+            <div class="w3-modal-content w3-card-8 w3-animate-bottom" style="max-width:600px">
+                {% renderTooltipedModalForm productoForm "AddProductModalForm"  modal=True action="/nuevo_product" %}
+            </div>
+        </div>
+
     </div>
 
 </body>

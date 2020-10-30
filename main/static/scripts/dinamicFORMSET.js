@@ -10,7 +10,7 @@ function updateElementIndex(el, prefix, ndx) {
 
 }
 
-function addForm(prefix, addto) { //prefix for updating managementform values and stuff, and addto is the object to add
+function addForm(prefix, addto, blank_it = true) { //prefix for updating managementform values and stuff, and addto is the object to add
     var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
     var row = addto.children('.dynamic-form:first').clone(true).get(0);
 
@@ -21,11 +21,11 @@ function addForm(prefix, addto) { //prefix for updating managementform values an
     updateElementIndex(row, prefix, formCount);
     $(row).children().each(function() {
         updateElementIndex(this, prefix, formCount);
-        $(this).val('');
+        if (blank_it) $(this).val('');
     });
     $(row).children().not(':last').find("*").each(function() {
         updateElementIndex(this, prefix, formCount);
-        $(this).val('');
+        if (blank_it) $(this).val('');
     });
 
     $('#id_' + prefix + '-TOTAL_FORMS').val(formCount + 1);

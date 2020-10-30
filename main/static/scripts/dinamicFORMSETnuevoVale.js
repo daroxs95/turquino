@@ -52,12 +52,32 @@ $(function() {
         calcTotals($(this).attr("to"));
         $('.' + $(this).attr("to")).show();
     });
+    $('form').on('change', function() {
+        calcTotals('table-totals');
+        $('.table-totals').show();
+    });
 })
 
 const calcTotals = (to) => {
-    let used = [];
-    let col = $('.' + to).children().children('.col-total').clone(true);
-    $("[id^='formsets-']").each(element => {
-        alert(element.find('option').val);
+    let used = {};
+    let used_verbose_name = {};
+
+    let node_totals = $('.' + to).find('.col-total');
+    let col = $(node_totals).clone(true).get(0);
+
+    $("[id^='formsets-'][id$='-row']").each((index, element) => {
+        let selected = $(element).find("option:selected");
+        if (selected.val()) {
+            used[selected.val()] = (used[selected.val()] || 0) + (parseFloat($(element).find("[id$='-cantidad']").val()) || 0);
+            used_verbose_name[selected.val()] = $(element).find("option:selected").html();
+        }
     });;
+    for (key in used) {
+        $(node_totals).remove();
+
+        let newcol = $(col).clone(true);
+        $(newcol).appendTo($('.' + to).find('.row-totals'));
+        newcol.find('[id="Producto"]').html(used_verbose_name[key]);
+        newcol.find('[id="cantidad"]').html(used[key]);
+    };
 }

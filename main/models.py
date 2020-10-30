@@ -137,7 +137,7 @@ class FTS(models.Model):
 
 class Final(models.Model):
     dia = models.DateField(default=datetime.now)
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)     
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.FloatField(default = 0)
     importe = models.FloatField(default = 0)
 

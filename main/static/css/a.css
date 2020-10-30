@@ -46,3 +46,7 @@ a {
 .w3-select {
     height: 40px;
 }
+
+.hide-to-print {
+    display: none;
+}

@@ -24,4 +24,15 @@ $(document).ready(function() {
         show: { duration: 50 },
         hide: { duration: 50 },
     });
+
+    $(".print-btn").on('click', () => {
+        $("*").addClass("hide-to-print");
+        $(".printable-model").parents().removeClass("hide-to-print");
+        $(".printable-model").find("*").removeClass("hide-to-print");
+        $(".printable-model").removeClass("hide-to-print");
+
+        window.print();
+        $("*").removeClass("hide-to-print");
+
+    });
 });

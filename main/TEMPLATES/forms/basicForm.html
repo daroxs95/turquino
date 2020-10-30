@@ -1,7 +1,7 @@
 {% load inclusion_tags %}
 
 
-    <form method="post" id="modalForm" class="w3-container" action={{ action }}>
+    <form method="post" id="modalForm" class="w3-container w3-animate-opacity" action={{ action }}>
         {% csrf_token %}
         <div class="w3-section">
             {% for field in form %}

@@ -1,4 +1,6 @@
 from main.models import Producto, Vale, ValeSalida, EntradaFT, FT, FTS , CantidadPredefinida
+from datetime import datetime, timedelta
+from calendar import monthrange
 
 def calc_consumo(desde, hasta, productos):
     used_products = productos
@@ -101,6 +103,14 @@ def calc_total(tabla):
   return total      
 
 def change_date(fecha ,anno = 0 , mes = 0, dia = 0 ):
+  fechaf = fecha.split('-')
+  current_date = datetime(int(fechaf[0]),int(fechaf[1]),int(fechaf[2]))
+  result = current_date.replace(year= current_date.year + anno)
+  dt= timedelta(days= mes*30 + dia )
+  result = result + dt
+  return result.date().__str__()
+
+def change_dateLEGACY(fecha ,anno = 0 , mes = 0, dia = 0 ):
   fechaf = fecha.split('-')
   result = str(int(fechaf[0]) + anno)+'-'+ str(int(fechaf[1]) + mes)+'-' + str(int(fechaf[2]) + dia)
   

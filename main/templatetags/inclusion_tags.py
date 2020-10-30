@@ -76,13 +76,11 @@ def make_mov_materias_primas(desde, hasta):
     #tipoproducto = Producto.PRODUCTS
     used_products_verbose_name = []
     exist_inicial = ['existencia inicial','','']
-    desde_quincena_anterior = change_date(desde, mes = -1)
-    hasta_quincena_anterior = change_date(hasta, mes = -1)
 
 
     a = FT.objects.filter(entradaFt__dia__gte = desde , entradaFt__dia__lte = hasta)
     b = FTS.objects.filter(salidaFt__dia__gte = desde , salidaFt__dia__lte = hasta)
-    c = Final.objects.filter(dia__gte = desde_quincena_anterior,dia__lte = hasta_quincena_anterior)
+    c = Final.objects.filter(dia = change_date(desde,dia= -1) )
     d = Vale.objects.filter(valesalida__dia__gte = desde , valesalida__dia__lte = hasta)
 
     for item in d:
@@ -99,13 +97,13 @@ def make_mov_materias_primas(desde, hasta):
         used_products_verbose_name.append(item.producto.name)
 
       
-      if is_in(item.entradaFt.No_documento,vales) == False:
-        vales.append(item.entradaFt.No_documento)  
+      if is_in(item.entradaFt.identificador,vales) == False:
+        vales.append(item.entradaFt.identificador)  
         vales_verbose_name.append(item.entradaFt.tipo +" "+ item.entradaFt.No_documento)
 
     for item in b:
-      if is_in(item.salidaFt.No_documento,vales_salida) == False:
-        vales_salida.append(item.salidaFt.No_documento)  
+      if is_in(item.salidaFt.identificador,vales_salida) == False:
+        vales_salida.append(item.salidaFt.identificador)  
       if is_in(item.producto,used_products) == False:
         used_products.append(item.producto)
         prices.append(item.producto.precio)
@@ -113,12 +111,11 @@ def make_mov_materias_primas(desde, hasta):
 
     for i in vales_salida:
        cached_rows=[]
-       cached_rows.append(i)
-       
+       cached_rows.append(b.filter(salidaFt__identificador = i)[0].salidaFt.No_documento)#revisar si esto sirve, creo q si pero no estoy seguro
        for ii in used_products:
           cell_cantidad = 0
 
-          for item in b.filter(salidaFt__No_documento = i):
+          for item in b.filter(salidaFt__identificador = i):
             if is_in(item.salidaFt.dia,cached_rows) == False:
               cached_rows.append(item.salidaFt.dia)
               cached_rows.append(item.salidaFt.Destino)
@@ -142,12 +139,12 @@ def make_mov_materias_primas(desde, hasta):
     
     for i,isal in zip(vales,vales_verbose_name):
        cached_rows=[]
-       cached_rows.append(isal)
+       cached_rows.append(a.filter(entradaFt__identificador = i)[0].entradaFt)
        
        for ii in used_products:
           cell_cantidad = 0
 
-          for item in a.filter(entradaFt__No_documento = i):
+          for item in a.filter(entradaFt__identificador = i):
             if is_in(item.entradaFt.dia,cached_rows) == False:
               cached_rows.append(item.entradaFt.dia)
               cached_rows.append(item.entradaFt.Procedencia)
@@ -210,8 +207,6 @@ def make_mov_materias_primas_en_valores(desde, hasta):
     #tipoproducto = Producto.PRODUCTS
     tipoEntrada = EntradaFT.TIPOS
     used_products_verbose_name = []
-    desde_quincena_anterior = change_date(desde, mes = -1)
-    hasta_quincena_anterior = change_date(hasta, mes = -1)
 
     head=[]
     colspans=[1,1,2,4,4,2]
@@ -231,7 +226,7 @@ def make_mov_materias_primas_en_valores(desde, hasta):
 
     a = FT.objects.filter(entradaFt__dia__gte = desde , entradaFt__dia__lte = hasta)
     b = FTS.objects.filter(salidaFt__dia__gte = desde , salidaFt__dia__lte = hasta)
-    c = Final.objects.filter(dia__gte = desde_quincena_anterior,dia__lte = hasta_quincena_anterior)
+    c = Final.objects.filter(dia = change_date(desde,dia= -1) )
     d = Vale.objects.filter(valesalida__dia__gte = desde , valesalida__dia__lte = hasta)
 
     for item in d:

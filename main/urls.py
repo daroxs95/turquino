@@ -25,6 +25,7 @@ urlpatterns = [
     path('getProduccionFormset', views.GetProductionFormset, name = 'Get_Production_Formset'),
     path('nueva_produccion', views.NuevaProduccion, name = 'Nueva_Produccion'),
     path('nueva_FT', views.NuevaFT, name = 'Nueva_FT'),
+    path('nuevo_traslado_emitido', views.NuevoTrasladoEmitido, name = 'Nuevo_Traslado_Emitido'),
     path('nuevo_vale', views.NuevoVale, name = 'Nuevo_Vale'),
     path('', views.MainFunc, name='Main_Page'),
     ]

@@ -6,7 +6,7 @@ from django.utils import timezone
 from main.models import Producto, Vale, ValeSalida,LastSession, Tipos, CantidadPredefinida
 from .forms import GetModelForm, ValeFormset, ValeSalidaForm, PickProductFormset, CantidadPredefinidaFormset
 from .forms import ValeFormsets, PickProductForm, CantidadPredefinidaFillForm, ProduccionForm
-from .forms import FTEntradaFormset, EntradaFTForm, ProductoForm
+from .forms import FTEntradaFormset, EntradaFTForm, ProductoForm, FTSalidaFormset, SalidaFTForm
 from main.templatetags.utils import retrive_lst , retrieve_predefined_production, create_DATA_for_formset_with_custom_forms
 
 from django.shortcuts import render
@@ -176,6 +176,39 @@ def NuevaProduccion(request):
                                        'tipos': tipos,
                                        })
 
+def NuevoTrasladoEmitido(request):
+    DATA = {
+        'formset-TOTAL_FORMS': '1',
+        'formset-INITIAL_FORMS': '0',
+        }
+
+    salidaFTForm = SalidaFTForm(request.POST or None)
+    formset = FTSalidaFormset(request.POST or DATA, prefix='formset')
+    productoForm = ProductoForm(request.POST or None)
+
+    if request.method =='POST':
+        if salidaFTForm.is_valid() and formset.is_valid():
+            salidaFT = salidaFTForm.save(commit=False)
+            salidaFT.identificador = salidaFT.No_documento + '-'+ str(salidaFT.dia)
+            try:
+                salidaFT.save()
+            except:
+                pass
+
+            for FTform in formset:
+                FTform2save = FTform.save(commit=False)
+                FTform2save.salidaFt = salidaFT
+                FTform2save.created = timezone.now()
+                FTform2save.save()
+
+    tipos = Tipos.as_list()
+
+    return render(request,'nuevo_traslado_emitido.html',{'salidaFTForm':salidaFTForm,
+                                       'formset':formset,
+                                       'tipos': tipos,
+                                       'productoForm':productoForm
+                                       })
+
 def NuevaFT(request):
     DATA = {
         'formset-TOTAL_FORMS': '1',
@@ -190,15 +223,15 @@ def NuevaFT(request):
         if entradaFTForm.is_valid() and formset.is_valid():
             entradaFT = entradaFTForm.save(commit=False)
             entradaFT.identificador = entradaFT.No_documento + '-'+ str(entradaFT.dia)
-            entradaFT.save()
+            try:
+                entradaFT.save()
+            except:
+                pass
 
             for FTform in formset:
                 FTform2save = FTform.save(commit=False)
                 FTform2save.entradaFt = entradaFT
-                try:
-                    FTform2save.created = CantidadPredefinida.objects.get(producto_name=FTform2save.producto_name).created#no se si sea necesario hacerlo aqui
-                except:
-                    pass
+                FTform2save.created = timezone.now()
                 FTform2save.save()
 
     tipos = Tipos.as_list()

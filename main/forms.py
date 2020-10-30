@@ -1,5 +1,5 @@
 from django import forms
-from main.models import Vale, ValeSalida, Tipos, Producto, CantidadPredefinida, FT, EntradaFT
+from main.models import Vale, ValeSalida, Tipos, Producto, CantidadPredefinida, FT, EntradaFT, SalidaFT, FTS
 #from djangoformsetjs.utils import formset_media_js
 from .django_extensions.formsets import formsets_factory
 
@@ -115,4 +115,32 @@ class ProductoForm(forms.ModelForm):
                                                    "required":""}),
                         'precio':forms.NumberInput(attrs={'class':'w3-input w3-border','placeholder':'Precio',
                                                    "required":""})
-                                                   }        
+                                                   }   
+
+class FTSalidaForm(forms.ModelForm):
+    class Meta:
+            model = FTS
+            fields = ['producto', 'cantidad','importe']
+            widgets = {'producto': forms.Select(attrs={'class':'w3-select w3-border','placeholder':'Producto',
+                                                "required":""}),
+                       'cantidad': forms.NumberInput(attrs={'class':'w3-input w3-border','placeholder':'Cantidad',
+                                                   "required":""}),
+                        'importe':forms.NumberInput(attrs={'class':'w3-input w3-border','placeholder':'Importe',
+                                                   "required":""})
+                                                   }
+    def __init__(self, *args, **kwargs):
+        super(FTSalidaForm, self).__init__(*args, **kwargs)
+        self.fields['producto'].empty_label = 'Producto'
+
+FTSalidaFormset = forms.modelformset_factory(FTS, form = FTSalidaForm)
+
+class SalidaFTForm(forms.ModelForm):
+    class Meta:
+            model = SalidaFT
+            fields = ['Destino','No_documento', 'dia']
+            widgets = { 'dia': forms.DateInput(attrs={'class':'datepicker w3-input w3-border','placeholder':'Día'}),
+                        'No_documento': forms.TextInput(attrs={'class':'w3-input w3-border',
+                                                              'placeholder':'Número de documento'}),
+                        'Destino': forms.TextInput(attrs={'class':'w3-input w3-border',
+                                                              'placeholder':'Destino'})
+                       }     

@@ -31,7 +31,7 @@ $(function() {
     })
 
     $('.add-formset').on('click', function() {
-        return addFormset(this, $(this).attr("to"), 'pickPFormset');
+        return addFormset(this, $(this).attr("to"), 'pickPFormset', null, false); //actualmente blank it lo desactive, daba problemas con el management form, aparecia total forms con value no definido, por lo q deba error al guardar, habia q annadar i eliminar un form para q se actualizara
     });
 
     $('.add-formset-filled').on('click', function() {

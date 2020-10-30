@@ -50,3 +50,9 @@ a {
 .hide-to-print {
     display: none;
 }
+
+.custom-message {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}

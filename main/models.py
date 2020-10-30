@@ -26,7 +26,8 @@ class Producto(models.Model):
         productlist = []
         try:
             for product in allPRODUCTS:
-                productlist.append([product.name,product.name])
+                if [product.name,product.name] not in productlist:
+                    productlist.append([product.name,product.name])
         except: return []#ver si puedo retornar algo con sentido y q no sea None
         return productlist
 

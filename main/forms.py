@@ -47,7 +47,7 @@ class CantidadPredefinidaFillForm(forms.Form):#esto es para el form de rellenar 
     producto_name = forms.ModelChoiceField(queryset=Tipos.objects.all(),
                                   empty_label='Tipo de Producción',
                                   widget = forms.Select(attrs={'class':'w3-select w3-border'}))
-    cantidad = forms.IntegerField(widget = forms.NumberInput(attrs={'class':'w3-input w3-border','placeholder':'Cantidad',
+    cantidad = forms.FloatField(widget = forms.NumberInput(attrs={'class':'w3-input w3-border','placeholder':'Cantidad',
                                                 "required":""}))
 
 

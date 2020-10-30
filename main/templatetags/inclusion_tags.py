@@ -378,3 +378,11 @@ def renderTooltipedModalForm(form, modal_name="", modal = False, action = ""):
       "modal": modal,
       "action": action
     }
+
+@register.inclusion_tag("message.html")
+def renderMessage(title, content, message_type="success"):#por ahora message_type no hace nada solo salen success
+    return {
+      "title":title,
+      "content":content,
+      "message_type": message_type,
+    }

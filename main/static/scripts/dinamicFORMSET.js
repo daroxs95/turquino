@@ -15,17 +15,15 @@ function addForm(prefix, addto) { //prefix for updating managementform values an
     var row = addto.children('.dynamic-form:first').clone(true).get(0);
 
 
-    $(row).removeAttr('id').insertAfter($(addto.children('.dynamic-form:last'))).children('.hidden').removeClass('hidden');
+    //$(row).removeAttr('id').insertAfter($(addto.children('.dynamic-form:last'))).children('.hidden').removeClass('hidden');
+    $(row).insertAfter($(addto.children('.dynamic-form:last'))).children('.hidden').removeClass('hidden');
 
-    $(row).children().not(':last').children().each(function() {
-        updateElementIndex(this, prefix, formCount);
-        $(this).val('');
-    });
+    updateElementIndex(row, prefix, formCount);
     $(row).children().each(function() {
         updateElementIndex(this, prefix, formCount);
         $(this).val('');
     });
-    $(row).children().not(':last').children().children().each(function() {
+    $(row).children().not(':last').find("*").each(function() {
         updateElementIndex(this, prefix, formCount);
         $(this).val('');
     });
@@ -54,30 +52,22 @@ function deleteForm(btn, prefix) {
 }
 
 function addFormset(btn, prefix, extra_prefixes, formset, blank_it = true) {
-
     var formCount = parseInt($('#id_' + prefix + '-TOTAL_FORMSETS').val());
     var fformset = $(btn).siblings('.dynamic-fformset');
 
     if (!formset) {
-        formset = fformset.find('.dynamic-formset:first').clone(true).get(0); //no se por q estaba aqui el get 0, pero sin muchas pruebas sin el tambien funciona
+        formset = fformset.find('.dynamic-formset:first').clone(true).get(0); //no se por q estaba aqui el get 0, pero sin muchas pruebas sin el tambien funciona, UPDT: parece q get 0 coje solo el objeto html, y no el objeto jquery
     }
 
-    $(formset).removeAttr('id').insertAfter($(fformset.find('.dynamic-formset:last'))).children('.hidden').removeClass('hidden');
-    //$(formset).insertAfter($(fformset.find('.dynamic-formset:last'))).children('.hidden').removeClass('hidden');
+    //$(formset).removeAttr('id').insertAfter($(fformset.find('.dynamic-formset:last'))).children('.hidden').removeClass('hidden');
+    $(formset).insertAfter($(fformset.find('.dynamic-formset:last'))).children('.hidden').removeClass('hidden');
 
 
-    formset = fformset.find('.dynamic-formset:last'); //esto esta aqui para poder actualizar todos los indices bien
-    $(formset).children().each(function() {
+    formset = fformset.find('.dynamic-formset:last').get(0); //esto esta aqui para poder actualizar todos los indices bien
+    updateElementIndex(formset, prefix, formCount);
+    $(formset).find("*").each(function() {
         updateElementIndex(this, prefix, formCount);
         if (blank_it) $(this).val(''); //lo quite porq no se para q se usaba y me daba problemas cuando se copiaba el management form
-    });
-    $(formset).children().children().each(function() {
-        updateElementIndex(this, prefix, formCount);
-        if (blank_it) $(this).val('');
-    });
-    $(formset).children().children().children().each(function() {
-        updateElementIndex(this, prefix, formCount);
-        if (blank_it) $(this).val('');
     });
 
     $('#id_' + prefix + '-TOTAL_FORMSETS').val(formCount + 1);
@@ -86,17 +76,9 @@ function addFormset(btn, prefix, extra_prefixes, formset, blank_it = true) {
     for (var i = 0, prefixesCount = extra_prefixes.length; i < prefixesCount; i++) {
         $('#id_' + extra_prefixes[i] + '-TOTAL_FORMS').val(formCount + 1);
 
-        $(formset).children().each(function() {
+        $(formset).find("*").each(function() {
             updateElementIndex(this, extra_prefixes[i], formCount);
-            //$(this).val(''); //lo quite porq no se para q se usaba y me daba problemas cuando se copiaba el management form
-        });
-        $(formset).children().children().each(function() {
-            updateElementIndex(this, extra_prefixes[i], formCount);
-            if (blank_it) $(this).val('');
-        });
-        $(formset).children().children().children().each(function() {
-            updateElementIndex(this, extra_prefixes[i], formCount);
-            if (blank_it) $(this).val('');
+            if (blank_it) $(this).val(''); //lo quite porq no se para q se usaba y me daba problemas cuando se copiaba el management form
         });
     }
     return false;
@@ -108,25 +90,32 @@ function deleteFormset(btn, prefix, extra_prefixes) { //parece funcionar mas pru
 
     if (parentFormset.attr("id") != prefix + '-0-formset') { //aqui meti las pezunnas no es el mismo code del snippet
         var formsets = parentFormset.siblings('.dynamic-formset');
-
         parentFormset.remove();
 
         $('#id_' + prefix + '-TOTAL_FORMSETS').val(formsets.length);
 
-        for (var i = 0, prefixesCount = extra_prefixes.length; i < prefixesCount; i++) {
-            $('#id_' + extra_prefixes[i] + '-TOTAL_FORMS').val(formsets.length);
-        }
+        extra_prefixes.forEach((extra_prefix) => {
+            $('#id_' + extra_prefix + '-TOTAL_FORMS').val(formsets.length);
+            formsets.each((index, element) => {
+                $(element).each(function() {
+                    updateElementIndex(this, extra_prefix, index); //no se si para los formsets tenga q actualizar algo pero ahora mismo esto no funciona, y no es necesario para los forms
+                });
+                $(element).find("*").each(function() {
+                    updateElementIndex(this, extra_prefix, index); //no se si para los formsets tenga q actualizar algo pero ahora mismo esto no funciona, y no es necesario para los forms
+                });
+            });
+        });
 
-        for (var i = 0, formCount = formsets.length; i < formCount; i++) {
+        formsets.each((index, element) => {
             //alert(formsets.get(i)).children().not(':last').children());
-            $(formsets.get(i)).each(function() {
-                updateElementIndex(this, prefix, i); //no se si para los formsets tenga q actualizar algo pero ahora mismo esto no funciona, y no es necesario para los forms
+            $(element).each(function() {
+                updateElementIndex(this, prefix, index); //no se si para los formsets tenga q actualizar algo pero ahora mismo esto no funciona, y no es necesario para los forms
             });
-            $(formsets.get(i)).children().each(function() {
-                updateElementIndex(this, prefix, i); //no se si para los formsets tenga q actualizar algo pero ahora mismo esto no funciona, y no es necesario para los forms
+            $(element).find("*").each(function() {
+                updateElementIndex(this, prefix, index); //no se si para los formsets tenga q actualizar algo pero ahora mismo esto no funciona, y no es necesario para los forms
             });
-        }
-    }
+        });
+    };
 
     return false;
 }

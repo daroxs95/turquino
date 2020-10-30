@@ -3,8 +3,8 @@
             <td class="text-center w3-border w3-animate-opacity d-display">
                 {% renderFieldTooltiped products.tipo 'width:100%' %}
                 <input class="w3-input" style="visibility: hidden">
-                <i title="Agregar produto" class="fa fa-plus w3-xlarge w3-text-grey add-row" type="button?" value="add" to={{ formset.prefix }}></i>
-                <i title="Eliminar producción" id="remove-{{ formset.prefix }}-formset" class="fa fa-minus w3-xlarge w3-text-grey delete-formset" type="button?" from={{ formsets.prefix }}></i>
+                <i title="Agregar produto" class="fa fa-plus w3-xlarge w3-text-grey add-row add-row-cross-btn" type="button?" value="add" to={{ formset.prefix }}></i>
+                <i title="Eliminar producción" id="remove-{{ formset.prefix }}-formset" class="fa fa-minus w3-xlarge w3-text-grey delete-formset" type="button?" from="formsets"></i>
             </td>
 
             {{ formset.management_form }} {% for form in formset.forms %}

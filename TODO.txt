@@ -30,3 +30,5 @@
 -el autocomplete on de el form en annadir FT, no funciona en chrome pero si en FF, lo quiero para q cuando se recargue la pagina se quede rellenado
 -el importe en los vales revisar para q lo uso, y ver si lo puedo autorrellenar
 -hacer q se autocalcule los finals, si no encuentra ninguno
+-informar cuando se vaya a annadir algun vale o factura q ya exista en vez de annadir cantidades, para no annadir cantidades dobles
+-refactor js for cycles for .each and .forEach

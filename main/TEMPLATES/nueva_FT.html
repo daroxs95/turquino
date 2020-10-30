@@ -44,13 +44,14 @@
             <button title="Agregar produto" class="w3-btn w3-gray add-row" type="button" to={{ formset.prefix }}>Agregar</button>
             <button title="Guarda la producción en la Base de Datos" class="w3-btn" type="submit" value="save">Guardar</button>
         </form>
-
         <div id="AddProductModalForm" class="w3-modal">
             <div class="w3-modal-content w3-card-8 w3-animate-bottom" style="max-width:600px">
                 {% renderTooltipedModalForm productoForm "AddProductModalForm"  modal=True action="/nuevo_product" %}
             </div>
         </div>
-
+        {% if saved %}
+            {% renderMessage "Exito" "El contenido fue guardado satisfactoriamente." %}
+        {% endif %}
     </div>
 
 </body>

@@ -56,3 +56,17 @@ a {
     bottom: 10px;
     right: 10px;
 }
+
+.table-data td,
+.table-data th {
+    vertical-align: middle;
+}
+
+.table-data th {
+    padding: 4px;
+}
+
+.table-data td {
+    padding: 1px 4px;
+    white-space: nowrap;
+}

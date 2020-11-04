@@ -32,3 +32,5 @@
 -hacer q se autocalcule los finals, si no encuentra ninguno
 -informar cuando se vaya a annadir algun vale o factura q ya exista en vez de annadir cantidades, para no annadir cantidades dobles
 -refactor js for cycles for .each and .forEach
+-los valores del consumo en el mov de materias primas en valores, a veces da -0.0
+-poner "use strict" a todos los scripts

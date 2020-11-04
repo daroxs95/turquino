@@ -44,6 +44,12 @@
             "problemMatcher": []
         },
         {
+            "label": "run tests",
+            "type": "shell",
+            "command": "python manage.py test",
+            "problemMatcher": []
+        },
+        {
             "label": "csync database",
             "type": "shell",
             "command": "python manage.py migrate --run-syncdb",

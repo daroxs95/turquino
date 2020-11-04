@@ -7,17 +7,13 @@ from main.models import Producto, Vale, ValeSalida,LastSession, Tipos, CantidadP
 from .forms import GetModelForm, ValeFormset, ValeSalidaForm, PickProductFormset, CantidadPredefinidaFormset
 from .forms import ValeFormsets, PickProductForm, CantidadPredefinidaFillForm, ProduccionForm
 from .forms import FTEntradaFormset, EntradaFTForm, ProductoForm, FTSalidaFormset, SalidaFTForm
-from main.templatetags.utils import retrive_lst , retrieve_predefined_production, create_DATA_for_formset_with_custom_forms
+from main.templatetags.utils import retrive_lst , retrieve_predefined_production, create_DATA_for_formset_with_custom_forms, get_message_of_db_adding
 
 from django.shortcuts import render
 from django.views.generic import ListView
 
 # Create your views here.
 def MainFunc(request,actual_type = 'PN', desde = '2019-10-05', hasta ='2020-10-05'):
-    #lsActualType = LastSession.objects.filter(option = 'actual_type')[0]
-    #lstdesde = LastSession.objects.filter(option = 'desde')[0]
-    #lsthasta = LastSession.objects.filter(option = 'hasta')[0]
-
     lsActualType = retrive_lst(LastSession,'actual_type')
     lstdesde = retrive_lst(LastSession,'desde')
     lsthasta = retrive_lst(LastSession,'hasta')
@@ -72,7 +68,7 @@ def GetProductionFormset(request):
         producto = request.POST.get('producto','none')
         cantidad = request.POST.get('cantidad', 0 )
 
-        PPForm = PickProductForm({'tipo':producto}, prefix='pickPFormset-0')#aqui tiene el prefijo para q jquery pueda encontrarlo y actualizar los indices, para poder usarlo correctamente en el formset de nuevo vale
+        PPForm = PickProductForm({'pickPFormset-0-tipo':producto}, prefix='pickPFormset-0')#aqui tiene el prefijo para q jquery pueda encontrarlo y actualizar los indices, para poder usarlo correctamente en el formset de nuevo vale
         
         DATA = create_DATA_for_formset_with_custom_forms(formset_prefix,retrieve_predefined_production(producto , cantidad))
         formset = ValeFormset(DATA, prefix = formset_prefix)
@@ -83,7 +79,7 @@ def GetProductionFormset(request):
 
 def AddProduct(request):
     form = ProductoForm(request.POST or None)
-    saved = False
+    status = 'idle'
 
     if request.method =='POST':
         if form.is_valid():
@@ -91,11 +87,12 @@ def AddProduct(request):
             form2save.created = timezone.now()
             form2save.identificador = str(form2save.precio) + '-'+ form2save.name
             form2save.save()
-            saved = True
-
+            status = 'success'
+        if status != 'success':
+            status = 'error'
 
     return render(request,'addProduct_form.html',{'form':form,
-                                                'saved': saved,
+                                                'message': get_message_of_db_adding(status),
                                                 })
 
 def NuevoVale(request):
@@ -112,7 +109,7 @@ def NuevoVale(request):
     valeSalidaForm = ValeSalidaForm(request.POST or None)
     formsets = ValeFormsets(request.POST or DATA, prefix='formsets')
     pickProductFormset = PickProductFormset(request.POST or DATA,prefix='pickPFormset')
-    saved = False
+    status = 'idle'
 
     cantidadPredefinidaForm = CantidadPredefinidaFillForm()
     if request.method =='POST':
@@ -132,7 +129,10 @@ def NuevoVale(request):
                         vale2save.valesalida = valesalida
                         vale2save.tipo_de_produccion = tipo_de_produccion
                         vale2save.save()
-            saved = True
+                status = 'success'
+
+            if status != 'success':
+                status = 'error'
 
     tipos = Tipos.as_list()
 
@@ -142,7 +142,7 @@ def NuevoVale(request):
                                        'formsets':formsets,
                                        'cantidadPredefinidaForm':cantidadPredefinidaForm,
                                        'tipos': tipos,
-                                       'saved': saved,
+                                       'message': get_message_of_db_adding(status),
                                        })
 
 def NuevaProduccion(request):
@@ -153,7 +153,7 @@ def NuevaProduccion(request):
 
     produccionForm = ProduccionForm(request.POST or None)
     formset = CantidadPredefinidaFormset(request.POST or DATA, prefix='formset')
-    saved = False
+    status = 'idle'
     
     for form in formset:
         form.fields['producto_name'].choices = Producto.names_as_list()
@@ -176,14 +176,17 @@ def NuevaProduccion(request):
                 except:
                     pass
                 CantidadPredefinida2save.save()
-            saved = True
+            status = 'success'
+
+        if status != 'success':
+            status = 'error'
 
     tipos = Tipos.as_list()
 
     return render(request,'nueva_produccion.html',{'produccionForm':produccionForm,
                                        'formset':formset,
                                        'tipos': tipos,
-                                       'saved': saved,
+                                       'message': get_message_of_db_adding(status),
                                        })
 
 def NuevoTrasladoEmitido(request):
@@ -195,7 +198,7 @@ def NuevoTrasladoEmitido(request):
     salidaFTForm = SalidaFTForm(request.POST or None)
     formset = FTSalidaFormset(request.POST or DATA, prefix='formset')
     productoForm = ProductoForm(request.POST or None)
-    saved = False
+    status = 'idle'
 
     if request.method =='POST':
         if salidaFTForm.is_valid() and formset.is_valid():
@@ -211,7 +214,10 @@ def NuevoTrasladoEmitido(request):
                 FTform2save.salidaFt = salidaFT
                 FTform2save.created = timezone.now()
                 FTform2save.save()
-            saved = True
+            status = 'success'
+
+        if status != 'success':
+            status = 'error'
 
     tipos = Tipos.as_list()
 
@@ -219,7 +225,7 @@ def NuevoTrasladoEmitido(request):
                                        'formset':formset,
                                        'tipos': tipos,
                                        'productoForm':productoForm,
-                                       'saved': saved,
+                                       'message': get_message_of_db_adding(status),
                                        })
 
 def NuevaFT(request):
@@ -227,7 +233,7 @@ def NuevaFT(request):
         'formset-TOTAL_FORMS': '1',
         'formset-INITIAL_FORMS': '0',
         }
-    saved = False
+    status = 'idle'
 
     entradaFTForm = EntradaFTForm(request.POST or None)
     formset = FTEntradaFormset(request.POST or DATA, prefix='formset')
@@ -247,7 +253,10 @@ def NuevaFT(request):
                 FTform2save.entradaFt = entradaFT
                 FTform2save.created = timezone.now()
                 FTform2save.save()
-            saved = True
+            status = 'success'
+
+        if status != 'success':
+            status = 'error'
 
     tipos = Tipos.as_list()
 
@@ -255,5 +264,5 @@ def NuevaFT(request):
                                        'formset':formset,
                                        'tipos': tipos,
                                        'productoForm':productoForm,
-                                       'saved': saved,
+                                       'message': get_message_of_db_adding(status),
                                        })

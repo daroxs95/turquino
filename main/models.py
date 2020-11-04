@@ -20,6 +20,7 @@ class Producto(models.Model):
     last_exit = models.DateTimeField(default = datetime.now, editable = False)#0,0 if never used, check if on editable = false, it can be edited outside the django admin 
 
     objects = models.Manager()
+
     @classmethod
     def names_as_list(self):       
         allPRODUCTS = self.objects.all()
@@ -28,7 +29,7 @@ class Producto(models.Model):
             for product in allPRODUCTS:
                 if [product.name,product.name] not in productlist:
                     productlist.append([product.name,product.name])
-        except: return []#ver si puedo retornar algo con sentido y q no sea None
+        except: return []
         return productlist
 
     def __str__(self):
@@ -147,8 +148,9 @@ class Final(models.Model):
     objects = models.Manager()
 
 class CantidadPredefinida(models.Model):
+    identificador = models.AutoField(primary_key=True)
     tipo_de_produccion = models.ForeignKey(Tipos, on_delete=models.CASCADE)
-    producto_name = models.CharField(max_length=80, primary_key=True)
+    producto_name = models.CharField(max_length=80)
     cantidad = models.FloatField(default = 0)
 
     created = models.DateTimeField(auto_now_add=True)

@@ -77,8 +77,8 @@
             </div>
         </div>
 
-        {% if saved %}
-            {% renderMessage "Exito" "El contenido fue guardado satisfactoriamente." %}
+        {% if message %}
+            {% renderMessage message.title message.content message.color %}
         {% endif %}
     </div>
 

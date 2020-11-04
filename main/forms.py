@@ -25,6 +25,7 @@ class PickProductForm(forms.Form):
 
 PickProductFormset = forms.formset_factory(PickProductForm)
 
+CHOICES = (('1', 'First',), ('2', 'Second',))
 class ValeForm(forms.ModelForm):
     class Meta:
             model = Vale

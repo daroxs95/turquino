@@ -6,36 +6,54 @@ from main.templatetags.simple_tags import get_vervosename_from_tuple
 
 register = template.Library()
 
+sort_criteria = {
+  "harina": 1,
+  "levadura": 2,
+  "azucar": 3,
+  "azúcar": 4,
+  "azucar refino": 5,
+  "azúcar refino": 6,
+  "sal": 7,
+  "aceite": 8,
+  "núcleo": 9,
+  "petroleo regular": 99999,
+  "petróleo regular": 99999,
+  "petróleo planta": 999999,
+  "petróleo planta": 999999,
+}
+
 @register.inclusion_tag('tablas/tabla.html')
 def make_consumo_table(desde, hasta, table_type):
-    
     used_products = []
     used_products_verbose_name = []
     prices = []
     vales_salida = []
     table_data = []
   
-    a = Vale.objects.filter(tipo_de_produccion = table_type , valesalida__dia__gte = desde , valesalida__dia__lte = hasta)
+    query = Vale.objects.filter(tipo_de_produccion = table_type , valesalida__dia__gte = desde , valesalida__dia__lte = hasta)
 
+    a = query.order_by('producto__name')
     for item in a:
       if is_in(item.producto,used_products) == False:
         used_products.append(item.producto)
         #used_products_verbose_name.append(get_vervosename_from_tuple(tipoproducto,item.producto.name))
         used_products_verbose_name.append(item.producto.name)
         prices.append(item.producto.precio)
-      
+
+    a = query.order_by('valesalida__dia')
+    for item in a:
       if is_in(item.valesalida.identificador,vales_salida) == False:
-        vales_salida.append(item.valesalida.identificador)  
-
-
+        vales_salida.append(item.valesalida.identificador)
+    
     for i in vales_salida:
        cached_rows=[]
-       cached_rows.append(a.filter(valesalida__identificador = i)[0].valesalida.No_documento)#revisar si esto sirve, creo q si pero no estoy seguro
+       queryset = a.filter(valesalida__identificador = i)
+       cached_rows.append(queryset[0].valesalida.No_documento)#revisar si esto sirve, creo q si pero no estoy seguro
        
        for ii in used_products:
           cell_cantidad = 0
 
-          for item in a.filter(valesalida__identificador = i):
+          for item in queryset:
             if is_in(item.valesalida.dia,cached_rows) == False:
               cached_rows.append(item.valesalida.dia)
             if item.producto == ii:
@@ -65,7 +83,6 @@ def make_consumo_table(desde, hasta, table_type):
 
 @register.inclusion_tag('tablas/tabla.html')
 def make_mov_materias_primas(desde, hasta):
-    
     used_products = []
     prices = []
     vales = []
@@ -77,45 +94,61 @@ def make_mov_materias_primas(desde, hasta):
     used_products_verbose_name = []
     exist_inicial = ['existencia inicial','','']
 
+    facturas_traslados = FT.objects.filter(entradaFt__dia__gte = desde , entradaFt__dia__lte = hasta)
+    traslados_emitidos = FTS.objects.filter(salidaFt__dia__gte = desde , salidaFt__dia__lte = hasta)
 
-    a = FT.objects.filter(entradaFt__dia__gte = desde , entradaFt__dia__lte = hasta)
-    b = FTS.objects.filter(salidaFt__dia__gte = desde , salidaFt__dia__lte = hasta)
-    c = Final.objects.filter(dia = change_date(desde,dia= -1) )
-    d = Vale.objects.filter(valesalida__dia__gte = desde , valesalida__dia__lte = hasta)
+    c = Final.objects.filter(dia = change_date(desde,dia= -1) ).order_by('producto__name')
+    d = Vale.objects.filter(valesalida__dia__gte = desde , valesalida__dia__lte = hasta).order_by('producto__name')
 
     for item in d:
       if is_in(item.producto,used_products) == False:
         used_products.append(item.producto)
         prices.append(item.producto.precio)
         used_products_verbose_name.append(item.producto.name)
-
+    for item in c:
+      if is_in(item.producto,used_products) == False:
+        used_products.append(item.producto)
+        prices.append(item.producto.precio)
+        used_products_verbose_name.append(item.producto.name)
+    
+    a = facturas_traslados.order_by('producto__name')
     for item in a:
       if is_in(item.producto,used_products) == False:
         used_products.append(item.producto)
         prices.append(item.producto.precio)
-        #used_products_verbose_name.append(get_vervosename_from_tuple(tipoproducto,item.producto.name))
         used_products_verbose_name.append(item.producto.name)
 
-      
+    a = facturas_traslados.order_by('entradaFt__dia')
+    for item in a:
       if is_in(item.entradaFt.identificador,vales) == False:
         vales.append(item.entradaFt.identificador)  
         vales_verbose_name.append(item.entradaFt.tipo +" "+ item.entradaFt.No_documento)
-
+  
+    b = traslados_emitidos.order_by('producto__name')  
     for item in b:
-      if is_in(item.salidaFt.identificador,vales_salida) == False:
-        vales_salida.append(item.salidaFt.identificador)  
       if is_in(item.producto,used_products) == False:
         used_products.append(item.producto)
         prices.append(item.producto.precio)
         used_products_verbose_name.append(item.producto.name)
 
+    b = traslados_emitidos.order_by('salidaFt__dia')  
+    for item in b:
+      if is_in(item.salidaFt.identificador,vales_salida) == False:
+        vales_salida.append(item.salidaFt.identificador)  
+
+    sortedRes = sorted(zip(used_products, prices, used_products_verbose_name), key=lambda x: sort_criteria.get(x[0].name, 999))
+    used_products = [x for (x, y, z) in sortedRes]
+    prices = [y for (x, y, z) in sortedRes]
+    used_products_verbose_name = [z for (x, y, z) in sortedRes]
+
     for i in vales_salida:
        cached_rows=[]
-       cached_rows.append(b.filter(salidaFt__identificador = i)[0].salidaFt.No_documento)#revisar si esto sirve, creo q si pero no estoy seguro
+       queryset = b.filter(salidaFt__identificador = i)
+       cached_rows.append(queryset[0].salidaFt.No_documento)#revisar si esto sirve, creo q si pero no estoy seguro
        for ii in used_products:
           cell_cantidad = 0
 
-          for item in b.filter(salidaFt__identificador = i):
+          for item in queryset:
             if is_in(item.salidaFt.dia,cached_rows) == False:
               cached_rows.append(item.salidaFt.dia)
               cached_rows.append(item.salidaFt.Destino)
@@ -136,15 +169,16 @@ def make_mov_materias_primas(desde, hasta):
       exist_inicial.append(cell_cantidad)      
     
     table_data.append(exist_inicial)
-    
+
     for i,isal in zip(vales,vales_verbose_name):
        cached_rows=[]
-       cached_rows.append(a.filter(entradaFt__identificador = i)[0].entradaFt)
+       queryset = a.filter(entradaFt__identificador = i)
+       cached_rows.append(queryset[0].entradaFt)
        
        for ii in used_products:
           cell_cantidad = 0
 
-          for item in a.filter(entradaFt__identificador = i):
+          for item in queryset:
             if is_in(item.entradaFt.dia,cached_rows) == False:
               cached_rows.append(item.entradaFt.dia)
               cached_rows.append(item.entradaFt.Procedencia)
@@ -173,7 +207,7 @@ def make_mov_materias_primas(desde, hasta):
     temp_totales = calc_total_entradas(desde, hasta, used_products)
     real_totales = []
     for index, item in enumerate(temp_totales,3):
-      real_totales.append(item + exist_inicial[index]) 
+      real_totales.append(round(item + exist_inicial[index], 3)) 
     totales.extend(real_totales)
     table_data.append(totales)
 
@@ -186,7 +220,7 @@ def make_mov_materias_primas(desde, hasta):
     
     saldo_final = ['Saldo Final','','']
     for i in range(3,len(totales)):
-      saldo_final.append(totales[i] - consumo_row[i] - totales_descontar[i])
+      saldo_final.append(round(totales[i] - consumo_row[i] - totales_descontar[i],3))
     table_data_salida.append(saldo_final)
     
     importe = ['Importe','','']
@@ -196,7 +230,7 @@ def make_mov_materias_primas(desde, hasta):
 
     for i in table_data_salida:
       table_data.append(i)   
-
+    
     return {'data': table_data,'head': head,'a':len(a),'b':len(b),'c':len(c),'d':len(d)}
 
 @register.inclusion_tag('tablas/tabla.html')
@@ -204,7 +238,6 @@ def make_mov_materias_primas_en_valores(desde, hasta):
     used_products = []
     prices = []
     table_data = []
-    #tipoproducto = Producto.PRODUCTS
     tipoEntrada = EntradaFT.TIPOS
     used_products_verbose_name = []
 
@@ -224,10 +257,16 @@ def make_mov_materias_primas_en_valores(desde, hasta):
     head.append(headrow)
 
 
-    a = FT.objects.filter(entradaFt__dia__gte = desde , entradaFt__dia__lte = hasta)
-    b = FTS.objects.filter(salidaFt__dia__gte = desde , salidaFt__dia__lte = hasta)
-    c = Final.objects.filter(dia = change_date(desde,dia= -1) )
-    d = Vale.objects.filter(valesalida__dia__gte = desde , valesalida__dia__lte = hasta)
+    a = FT.objects.filter(entradaFt__dia__gte = desde , entradaFt__dia__lte = hasta).order_by('producto__name')
+    b = FTS.objects.filter(salidaFt__dia__gte = desde , salidaFt__dia__lte = hasta).order_by('producto__name')
+    c = Final.objects.filter(dia = change_date(desde,dia= -1) ).order_by('producto__name')
+    d = Vale.objects.filter(valesalida__dia__gte = desde , valesalida__dia__lte = hasta).order_by('producto__name')
+    
+    for item in c:
+      if is_in(item.producto,used_products) == False:
+        used_products.append(item.producto)
+        prices.append(item.producto.precio)
+        used_products_verbose_name.append(item.producto.name)
 
     for item in d:
       if is_in(item.producto,used_products) == False:
@@ -241,13 +280,17 @@ def make_mov_materias_primas_en_valores(desde, hasta):
         prices.append(item.producto.precio)
         #used_products_verbose_name.append(get_vervosename_from_tuple(tipoproducto,item.producto.name))
         used_products_verbose_name.append(item.producto.name)
-
-        
+     
     for item in b:
       if is_in(item.producto,used_products) == False:
         used_products.append(item.producto)
         prices.append(item.producto.precio)
         used_products_verbose_name.append(item.producto.name)  
+    
+    sortedRes = sorted(zip(used_products, prices, used_products_verbose_name), key=lambda x: sort_criteria.get(x[0].name, 999))
+    used_products = [x for (x, y, z) in sortedRes]
+    prices = [y for (x, y, z) in sortedRes]
+    used_products_verbose_name = [z for (x, y, z) in sortedRes]
     
     exist_inicial=[]
     exist_inicial_valor=[]
@@ -272,9 +315,8 @@ def make_mov_materias_primas_en_valores(desde, hasta):
     saldo_final = []
     saldo_final_importes = []
     for i in range(0,len(totales)):
-      saldo_final.append(totales[i] - consumo[i] - totales_descontar[i])
+      saldo_final.append( round(totales[i] - consumo[i] - totales_descontar[i] , 3))
       saldo_final_importes.append(round(saldo_final[i] * prices[i],2))
-
 
     for i,product,price,inicio,inicio_valor,consumo,importe,final,final_importe in zip(used_products,used_products_verbose_name,prices,exist_inicial,exist_inicial_valor,consumo,calc_consumo_importes(desde, hasta, used_products),saldo_final,saldo_final_importes):
       cached_rows=[]
@@ -288,7 +330,8 @@ def make_mov_materias_primas_en_valores(desde, hasta):
       for tipo in tipoEntrada:
         cell_cantidad=0
         cell_importe=0
-        for ii in a.filter(entradaFt__tipo = tipo[0]):
+        queryset = a.filter(entradaFt__tipo = tipo[0])
+        for ii in queryset:
           if ii.producto == i:
             cell_cantidad = cell_cantidad + ii.cantidad
             cell_importe = cell_importe + ii.importe
@@ -302,21 +345,18 @@ def make_mov_materias_primas_en_valores(desde, hasta):
         if cell_importe == 0:
             cached_rows.append('')
         else: 
-            cached_rows.append(cell_importe)
+            cached_rows.append(round(cell_importe, 2))
 
       cached_rows.append(consumo)
-      #cached_rows.append(importe)  #esto es para calcularlo por la suma real de los importes de cada entrada
-      #cached_rows.append(inicio_valor + importe_entrada -final_importe - cell_importe)
       
       cell_cantidad=0
       cell_importe=0
-      for ii in b:
-        if ii.producto == i:
-          cell_cantidad = cell_cantidad + ii.cantidad
-          cell_importe = cell_importe + ii.importe
-          importe_salida += ii.importe
+      for ii in b.filter(producto = i):
+        cell_cantidad = cell_cantidad + ii.cantidad
+        cell_importe = cell_importe + ii.importe
+        importe_salida += ii.importe
         
-      cached_rows.append(inicio_valor + importe_entrada -final_importe - cell_importe)
+      cached_rows.append(round(inicio_valor + importe_entrada -final_importe - cell_importe,3))#calcula el valor de los consumos
 
       if cell_cantidad == 0:
           cached_rows.append('')
@@ -380,9 +420,9 @@ def renderTooltipedModalForm(form, modal_name="", modal = False, action = ""):
     }
 
 @register.inclusion_tag("message.html")
-def renderMessage(title, content, message_type="success"):#por ahora message_type no hace nada solo salen success
+def renderMessage(title, content, color="green"):#por ahora message_type no hace nada solo salen success
     return {
       "title":title,
       "content":content,
-      "message_type": message_type,
+      "color": color,
     }

@@ -5,43 +5,43 @@ from calendar import monthrange
 def calc_consumo(desde, hasta, productos):
     used_products = productos
     table_data = [] 
+    queryset = Vale.objects.filter(valesalida__dia__gte = desde , valesalida__dia__lte = hasta);
 
     for ii in used_products:
       cell_cantidad = 0
 
-      for item in Vale.objects.filter(valesalida__dia__gte = desde , valesalida__dia__lte = hasta):
-        if item.producto == ii:
-          cell_cantidad = cell_cantidad + item.cantidad
+      for item in queryset.filter(producto = ii):
+        cell_cantidad = cell_cantidad + item.cantidad
                     
-      table_data.append(cell_cantidad)
+      table_data.append(round(cell_cantidad, 3))
 
     return table_data 
 
 def calc_consumo_by_type(desde, hasta, productos,table_type):
     used_products = productos
     table_data = [] 
+    queryset = Vale.objects.filter(tipo_de_produccion = table_type,valesalida__dia__gte = desde , valesalida__dia__lte = hasta);
 
     for ii in used_products:
       cell_cantidad = 0
 
-      for item in Vale.objects.filter(tipo_de_produccion = table_type,valesalida__dia__gte = desde , valesalida__dia__lte = hasta):
-        if item.producto == ii:
-          cell_cantidad = cell_cantidad + item.cantidad
+      for item in queryset.filter(producto = ii):
+        cell_cantidad = cell_cantidad + item.cantidad
                     
-      table_data.append(cell_cantidad)
+      table_data.append(round(cell_cantidad, 3))
 
     return table_data
 
 def calc_total_entradas(desde, hasta, productos):
     used_products = productos
     table_data = [] 
+    queryset = FT.objects.filter(entradaFt__dia__gte = desde , entradaFt__dia__lte = hasta);
 
     for ii in used_products:
       cell_cantidad = 0
 
-      for item in FT.objects.filter(entradaFt__dia__gte = desde , entradaFt__dia__lte = hasta):
-        if item.producto == ii:
-          cell_cantidad = cell_cantidad + item.cantidad
+      for item in queryset.filter(producto = ii):
+        cell_cantidad = cell_cantidad + item.cantidad
                     
       table_data.append(cell_cantidad)
 
@@ -50,13 +50,13 @@ def calc_total_entradas(desde, hasta, productos):
 def calc_total_salidas(desde, hasta, productos):
     used_products = productos
     table_data = [] 
+    queryset = FTS.objects.filter(salidaFt__dia__gte = desde , salidaFt__dia__lte = hasta);
 
     for ii in used_products:
       cell_cantidad = 0
 
-      for item in FTS.objects.filter(salidaFt__dia__gte = desde , salidaFt__dia__lte = hasta):
-        if item.producto == ii:
-          cell_cantidad = cell_cantidad + item.cantidad
+      for item in queryset.filter(producto = ii):
+        cell_cantidad = cell_cantidad + item.cantidad
                     
       table_data.append(cell_cantidad)
 
@@ -65,13 +65,12 @@ def calc_total_salidas(desde, hasta, productos):
 def calc_consumo_importes(desde, hasta, productos):
     used_products = productos
     table_data = [] 
-
+    queryset = Vale.objects.filter(valesalida__dia__gte = desde , valesalida__dia__lte = hasta)
     for ii in used_products:
       cell_cantidad = 0
 
-      for item in Vale.objects.filter(valesalida__dia__gte = desde , valesalida__dia__lte = hasta):
-        if item.producto == ii:
-          cell_cantidad = cell_cantidad + item.importe
+      for item in queryset.filter(producto = ii ):
+        cell_cantidad = cell_cantidad + item.importe
                     
       table_data.append(cell_cantidad)
 
@@ -110,12 +109,6 @@ def change_date(fecha ,anno = 0 , mes = 0, dia = 0 ):
   result = result + dt
   return result.date().__str__()
 
-def change_dateLEGACY(fecha ,anno = 0 , mes = 0, dia = 0 ):
-  fechaf = fecha.split('-')
-  result = str(int(fechaf[0]) + anno)+'-'+ str(int(fechaf[1]) + mes)+'-' + str(int(fechaf[2]) + dia)
-  
-  return result
-
 def make_dict_for_table_render(values,colspan=1,rowspan=1):
     keys = ['value' , 'colspan', 'rowspan']
     a=[]
@@ -148,7 +141,7 @@ def retrieve_predefined_production(production_type, amount):
   items = CantidadPredefinida.objects.filter(tipo_de_produccion = production_type)
   result = []
   for item in items:
-    result.append({'producto':Producto.objects.filter(name = item.producto_name).order_by('-last_exit')[0],'cantidad':float(amount)*item.cantidad})
+    result.append({'producto':Producto.objects.filter(name = item.producto_name).order_by('-last_exit')[0],'cantidad':round(float(amount)*item.cantidad,3)})
   return result
 
 def create_DATA_for_formset_with_custom_forms(prefix, list_of_Dict_of_fields):#list_of_Dict_of_fields is the returned object of retrieve_predefined_production
@@ -164,5 +157,13 @@ def create_DATA_for_formset_with_custom_forms(prefix, list_of_Dict_of_fields):#l
 
   return DATA
 
+def get_message_of_db_adding(status):
+    if status == 'success':
+        message = { 'title': 'Exito', 'content': 'El contenido fue guardado satisfactoriamente.', 'color': 'green'}
+    elif status == 'error':
+        message = { 'title': 'Fallo', 'content': 'El contenido no fue guardado satisfactoriamente. Error desconocido', 'color': 'red'}
+    else:
+        message = False
+    return message
 
 defLST = {'actual_type': 'PN', 'desde': '2010-10-10','hasta': '2020-10-10'}

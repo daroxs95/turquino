@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils import timezone
 from datetime import date , datetime
-
 # Create your models here.
 
 class LastSession(models.Model):
@@ -108,7 +107,7 @@ class Vale(models.Model):
     objects = models.Manager()
     
     def save(self, *args, **kwargs):
-        super(Vale,self).save( *args, **kwargs)
+        super(Vale,self).save( *args, **kwargs)# aqui creo q estoy escribiendo en la bd doble, aqui y al final
         print(self.producto.last_exit)
         self.producto.last_exit = datetime.now()
         self.producto.save()
@@ -146,6 +145,11 @@ class Final(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     objects = models.Manager()
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['dia', 'producto'], name='unique_final')
+        ]
 
 class CantidadPredefinida(models.Model):
     identificador = models.AutoField(primary_key=True)
@@ -156,4 +160,9 @@ class CantidadPredefinida(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     objects = models.Manager()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['tipo_de_produccion', 'producto_name'], name='unique_cantidad_predefinida')
+        ]
 

@@ -8,7 +8,7 @@ class addFormsetFilled {
     }
     sendAjaxRequest_and_UpdatePage() {
         var el = this.buttonAddFF;
-        $.post("getProduccionFormset", {
+        $.post("get_produccion_formset", {
                 csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").attr("value"), //revisar si es mejor hacer .val(), y si no trae problemas de seguridad enviarlo asi
                 producto: $("#id_producto_name").val(),
                 cantidad: $("#id_cantidad").val()

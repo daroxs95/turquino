@@ -70,3 +70,7 @@ a {
     padding: 1px 4px;
     white-space: nowrap;
 }
+
+.model-title {
+    text-align: center;
+}

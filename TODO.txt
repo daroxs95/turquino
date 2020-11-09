@@ -4,10 +4,7 @@
 -fix the look of noscript
 -meter los metodos de save q son los q estan en las views en los forms , haciendo override de los default
 -creo q mi modificacion de dynamic formset ya funciona pero no estoy del todo seguro
--pasarle los tipos de consumo a todas las views q usen el menu de forma auto
--linea 160 de forms.py de django revisar para q es el get item, podria servir para hacer algo como formsets.algointeresante, ac un rato se me ocurrio algo pero no recuerdo now
 -poner q el fformset pueda ser inicializado con DATA q no contenga toda la config inicial para cada uno de los formsets, no se si afecte su funcionamiento cunado se insatancia el formset desde request.POST
--en jquery de los vales en vez de no dejar borrar el formset 0, no dejar borrar el formset si es el unico q queda
 -set something as minimal width for inputs
     -arreglar la identidad entre no_de_documento y fecha de los vales de salida, como el vale tiene identificador dependiende de ambos parece q en el templatetag no tengo en cuenta ese id y me sale el mismo vale con dos fechas en el modelo de consumo,ver img_error_1.jpg
     -when reload page make the formsets managament form to be updated, because the count of total forms is not accurate,UPDT:con autocomplete="off" en el form tag se soluciona pero no se mantienen los datos introducidos al hacer reload,no he probado al intentar guardar
@@ -17,16 +14,13 @@
 -implementar mensajes enviados por el server en cada pagina
     -fix la diferencia de horario, UPDT:empeze a usar datetime.now en vez de timezone.now
 -no se por q en los tipos tengo un campo key y otro verbose name
--me parece q esta guardadndo en la view de nueva produccion cantidades CantidadesPredefinidas sin tener un primary key valido
 -fix en los metodos de save en los formsets se guarda algo en la bd primero, y si lo demas no se puede guardar, ya lo primero se queda guardado
--ocultar los controles de sumar y restar en los numberinput
 -poner tooltips a los campos de los forms creados por django
 -cambiar el empty_label de un typedchoicefield
--el classmethod names_as_list de productos, da bateo si la bd aun no existe
+    -el classmethod names_as_list de productos, da bateo si la bd aun no existe,UPDT: presumo solved si se crea la bd haciendo dbsync
 -implement landing page
--view annadir nueva factura/traslado arreglar el boton de annadir producto para q aparesca siempre al lado del select
 -poner el autocomplete off en los campos necesarios no en todo el form, creo q los campos son los del management form
--implementar errores en todas las vistas
+-implementar errores en todas las vistas, ya estan implementados, pero deberia ponerlos globales con context proccessor o con un middleware
 -el autocomplete on de el form en annadir FT, no funciona en chrome pero si en FF, lo quiero para q cuando se recargue la pagina se quede rellenado
 -el importe en los vales revisar para q lo uso, y ver si lo puedo autorrellenar
 -hacer q se autocalcule los finals, si no encuentra ninguno
@@ -34,3 +28,15 @@
 -refactor js for cycles for .each and .forEach
 -los valores del consumo en el mov de materias primas en valores, a veces da -0.0
 -poner "use strict" a todos los scripts
+-guardar finals despues de cada quincena
+-pop up de validacion a la hora de annadir a la bd para mas seguridad
+-borrar el numero de documento tras cada cosa annadida, o auto incrementarlo
+-implementar un editor de las cantidades predefinidas, y/o separarlas de los tipos de produccion
+-en los select en vez de con las teclas ir saltando de elemento, hacer q se filtren
+-esconder el cartel de success cuando se edite algo en la page, para saber q ya se tiene listo otro elemento para annadir, y q no sakga cuando se navega por la historia, hacia atras y adelante, no vuelve a enviar el form, pero el cartel sigue saliendo
+-en nueva f/t cuando intentas annadir un producto q hace reload a la page se reenvia un post
+-quitar el tipo Producto de los select q aparece como una opcion valida
+-agrupar los productos por tipo en todas las vistas, creo q implementando un ordenado por defecto en la clase 	
+-poner q cada cantidad predefinida sea identificada por el tipo de produccion y el producto
+-en vez de calcular los totales, cojer esa info de los finales q hayan ese dia, y si no hay entonces q lo calcule, tambien poner una opcion para calcularlo a la fuerza
+-refinar el admin para poder usarlo bien

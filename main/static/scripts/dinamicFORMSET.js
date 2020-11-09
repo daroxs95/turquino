@@ -87,8 +87,10 @@ function addFormset(btn, prefix, extra_prefixes, formset, blank_it = true) {
 function deleteFormset(btn, prefix, extra_prefixes) { //parece funcionar mas pruebas requeridas
     extra_prefixes = extra_prefixes.split(" ")
     var parentFormset = $(btn).parents('.dynamic-formset');
+    var formsetCount = parseInt($('#id_' + prefix + '-TOTAL_FORMSETS').val());
 
-    if (parentFormset.attr("id") != prefix + '-0-formset') { //aqui meti las pezunnas no es el mismo code del snippet
+    //if (parentFormset.attr("id") != prefix + '-0-formset') { //aqui meti las pezunnas no es el mismo code del snippet
+    if (formsetCount != 1) { //aqui meti las pezunnas no es el mismo code del snippet
         var formsets = parentFormset.siblings('.dynamic-formset');
         parentFormset.remove();
 

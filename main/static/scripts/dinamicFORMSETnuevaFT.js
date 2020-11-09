@@ -13,9 +13,10 @@ $(function() {
     const addProductForm = $('#AddProductModalForm').children().children('#modalForm');
     addProductForm.on('submit', function(e) {
         e.preventDefault();
-        $.post("/nuevo_product", addProductForm.serialize(), function(msg) {
+        $.post("/nuevo_product", addProductForm.serialize(), function(data, status) {
             $('#AddProductModalForm').hide();
-            location.reload();
+            $(data).insertAfter('body');
+            setTimeout(() => { location.reload() }, 2000);
         });
     });
 })

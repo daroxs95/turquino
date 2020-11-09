@@ -2,8 +2,9 @@ import io
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.utils import timezone
+import json
 
-from main.models import Producto, Vale, ValeSalida,LastSession, Tipos, CantidadPredefinida
+from main.models import Producto, Vale, ValeSalida,LastSession, Tipos, CantidadPredefinida, Final
 from .forms import GetModelForm, ValeFormset, ValeSalidaForm, PickProductFormset, CantidadPredefinidaFormset
 from .forms import ValeFormsets, PickProductForm, CantidadPredefinidaFillForm, ProduccionForm
 from .forms import FTEntradaFormset, EntradaFTForm, ProductoForm, FTSalidaFormset, SalidaFTForm
@@ -47,10 +48,7 @@ def MainFunc(request,actual_type = 'PN', desde = '2019-10-05', hasta ='2020-10-0
         lstdesde.save()
         lsthasta.save()
     
-    tipos = Tipos.as_list()
-    
-    return render(request, 'Main.html', {'tipos': tipos,
-                                         'actual_type':actual_type,
+    return render(request, 'Main.html', {'actual_type':actual_type,
                                          'desde':desde,
                                          'hasta':hasta,
                                          'form':form})
@@ -90,10 +88,45 @@ def AddProduct(request):
             status = 'success'
         if status != 'success':
             status = 'error'
+    
+    message = get_message_of_db_adding(status)
+    
+    if request.is_ajax():
+        return render(request,'message.html',{'title':message['title'],
+                                       'content':message['content'],
+                                       'color':message['color'],
+                                       })
+    else:
+        return render(request,'addProduct_form.html',{'form':form,
+                                                    'message': message,
+                                                    })
 
-    return render(request,'addProduct_form.html',{'form':form,
-                                                'message': get_message_of_db_adding(status),
-                                                })
+def AddFinals(request):
+    status = 'idle'
+
+    if request.method =='POST':
+        json_data = json.loads(request.POST.get('dataJSON'))
+        for item in json_data['finals']:
+            product = Producto.objects.get(name = item['name'], precio = item['price'])
+            try:
+                final2save = Final.objects.get(dia = json_data['date'] , producto = product)
+            except:
+                final2save = Final(dia = json_data['date'], producto = product)
+
+            final2save.cantidad= item['amount']
+            final2save.importe= item['value']
+
+            final2save.save()
+            status = 'success'
+        if status != 'success':
+            status = 'error'
+
+        message = get_message_of_db_adding(status)
+
+    return render(request,'message.html',{'title':message['title'],
+                                       'content':message['content'],
+                                       'color':message['color'],
+                                       })
 
 def NuevoVale(request):
     DATA = {
@@ -134,14 +167,11 @@ def NuevoVale(request):
             if status != 'success':
                 status = 'error'
 
-    tipos = Tipos.as_list()
-
     return render(request,'nuevo_vale.html',{'pickProductFormset':pickProductFormset,
                                        'valesalidaform':valeSalidaForm,
                                        #'tipos': Tipos.as_list(),
                                        'formsets':formsets,
                                        'cantidadPredefinidaForm':cantidadPredefinidaForm,
-                                       'tipos': tipos,
                                        'message': get_message_of_db_adding(status),
                                        })
 
@@ -181,11 +211,8 @@ def NuevaProduccion(request):
         if status != 'success':
             status = 'error'
 
-    tipos = Tipos.as_list()
-
     return render(request,'nueva_produccion.html',{'produccionForm':produccionForm,
                                        'formset':formset,
-                                       'tipos': tipos,
                                        'message': get_message_of_db_adding(status),
                                        })
 
@@ -219,11 +246,8 @@ def NuevoTrasladoEmitido(request):
         if status != 'success':
             status = 'error'
 
-    tipos = Tipos.as_list()
-
     return render(request,'nuevo_traslado_emitido.html',{'salidaFTForm':salidaFTForm,
                                        'formset':formset,
-                                       'tipos': tipos,
                                        'productoForm':productoForm,
                                        'message': get_message_of_db_adding(status),
                                        })
@@ -258,11 +282,9 @@ def NuevaFT(request):
         if status != 'success':
             status = 'error'
 
-    tipos = Tipos.as_list()
 
-    return render(request,'nueva_FT.html',{'entradaFTForm':entradaFTForm,
+    return render(request,'nueva_ft.html',{'entradaFTForm':entradaFTForm,
                                        'formset':formset,
-                                       'tipos': tipos,
                                        'productoForm':productoForm,
                                        'message': get_message_of_db_adding(status),
                                        })

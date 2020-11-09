@@ -16,16 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from . import views
+from django.views.decorators.cache import cache_page
 
 
 app_name = 'main'
 
 urlpatterns = [
     path('nuevo_product', views.AddProduct, name = 'Add_Product'),
-    path('getProduccionFormset', views.GetProductionFormset, name = 'Get_Production_Formset'),
+    path('get_produccion_formset', views.GetProductionFormset, name = 'Get_Production_Formset'),
     path('nueva_produccion', views.NuevaProduccion, name = 'Nueva_Produccion'),
-    path('nueva_FT', views.NuevaFT, name = 'Nueva_FT'),
+    path('save_finals', views.AddFinals, name = 'Save_Finals'),
+    path('nueva_ft', views.NuevaFT, name = 'Nueva_FT'),
     path('nuevo_traslado_emitido', views.NuevoTrasladoEmitido, name = 'Nuevo_Traslado_Emitido'),
     path('nuevo_vale', views.NuevoVale, name = 'Nuevo_Vale'),
-    path('', views.MainFunc, name='Main_Page'),
+    path('',  views.MainFunc, name='Main_Page'),
+    #path('',  cache_page(timeout=5*60, cache="main_cache")(views.MainFunc), name='Main_Page'),
+
     ]

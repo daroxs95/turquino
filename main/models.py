@@ -107,10 +107,8 @@ class Vale(models.Model):
     objects = models.Manager()
     
     def save(self, *args, **kwargs):
-        super(Vale,self).save( *args, **kwargs)# aqui creo q estoy escribiendo en la bd doble, aqui y al final
-        print(self.producto.last_exit)
         self.producto.last_exit = datetime.now()
-        self.producto.save()
+        super(Vale,self).save( *args, **kwargs)
     
     @staticmethod
     def fields(self):

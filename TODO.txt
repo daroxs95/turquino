@@ -40,3 +40,4 @@
 -poner q cada cantidad predefinida sea identificada por el tipo de produccion y el producto
 -en vez de calcular los totales, cojer esa info de los finales q hayan ese dia, y si no hay entonces q lo calcule, tambien poner una opcion para calcularlo a la fuerza
 -refinar el admin para poder usarlo bien
+-fix los times, algunos usan la hora local, y otros una zona horaria, creo q es mejor ponerlo todo local

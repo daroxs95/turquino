@@ -33,6 +33,7 @@
 -borrar el numero de documento tras cada cosa annadida, o auto incrementarlo
 -implementar un editor de las cantidades predefinidas, y/o separarlas de los tipos de produccion
 -en los select en vez de con las teclas ir saltando de elemento, hacer q se filtren
+-esconder el cartel de success cuando se edite algo en la page, para saber q ya se tiene listo otro elemento para annadir, y q no sakga cuando se navega por la historia, hacia atras y adelante, no vuelve a enviar el form, pero el cartel sigue saliendo
 -en nueva f/t cuando intentas annadir un producto q hace reload a la page se reenvia un post
 -quitar el tipo Producto de los select q aparece como una opcion valida
 -agrupar los productos por tipo en todas las vistas, creo q implementando un ordenado por defecto en la clase 	
@@ -42,4 +43,3 @@
 -fix los times, algunos usan la hora local, y otros una zona horaria, creo q es mejor ponerlo todo local
 -hacer q la lista de ordenar los productos sort_criteria, funcione si encuentra la cadena en el nombre y no si tiene un match exacto, con petrol_names to
 -al agregar multiples salidas, da error
--cuando se navega por la historia hacia alante y hacia atras, se reenvian los formularios

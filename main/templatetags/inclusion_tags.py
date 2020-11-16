@@ -372,7 +372,7 @@ def make_mov_materias_primas_en_valores(desde, hasta):
 			if cell_importe == 0:
 					cached_rows.append('')
 			else: 
-					cached_rows.append(cell_importe)    
+					cached_rows.append(round(cell_importe,3))    
 
 			cached_rows.append(final)
 			cached_rows.append(final_importe)

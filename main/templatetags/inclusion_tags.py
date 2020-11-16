@@ -17,11 +17,10 @@ sort_criteria = {
 	"aceite": 8,
 	"núcleo": 9,
 	"petróleo planta": 9999,
-	"petróleo planta": 9999,
-	"petroleo regular": 99999,
+	"petróleo planta (2)": 9999,
 	"petróleo regular": 99999,
 }
-petrol_names = ['petroleo regular', 'petróleo regular','petroleo planta', 'petróleo planta']
+petrol_names = ['petróleo regular', 'petróleo planta', "petróleo planta (2)"]
 
 
 @register.inclusion_tag('tablas/tabla.html')
@@ -389,7 +388,6 @@ def make_mov_materias_primas_en_valores(desde, hasta):
 		for x in table_data:
 			if x[0] in petrol_names:
 				petrol_table_data.append(x)
-				print(x)
 				no_petrol_table_data.remove(x)
 
 		no_petrol_table_data.append(calc_total(no_petrol_table_data))

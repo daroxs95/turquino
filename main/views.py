@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.utils import timezone
 import json
+from datetime import datetime
 
 from main.models import Producto, Vale, ValeSalida,LastSession, Tipos, CantidadPredefinida, Final
 from .forms import GetModelForm, ValeFormset, ValeSalidaForm, PickProductFormset, CantidadPredefinidaFormset
@@ -152,13 +153,16 @@ def NuevoVale(request):
                 try:
                     valesalida.created = ValeSalida.objects.get(identificador=valesalida.identificador).created
                 except:
-                    pass    
+                    pass
                 valesalida.save()
 
                 for formset, pickProductForm in zip(formsets,pickProductFormset):
                     tipo_de_produccion = pickProductForm.cleaned_data['tipo']
                     for vale in formset:
                         vale2save = vale.save(commit=False)
+                        print(vale2save.producto.identificador)
+                        Producto.objects.filter(identificador = vale2save.producto.identificador).update(last_exit = datetime.now())
+
                         vale2save.valesalida = valesalida
                         vale2save.tipo_de_produccion = tipo_de_produccion
                         vale2save.save()

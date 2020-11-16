@@ -44,11 +44,13 @@ class valesalidaAdmin(admin.ModelAdmin):
     
 @admin.register(Vale)
 class valeAdmin(admin.ModelAdmin):
-    list_display = ('tipo_de_produccion','valesalida','producto','cantidad','importe')
-    list_filter = ('tipo_de_produccion','valesalida','producto','cantidad','importe')
-    search_fields = ('tipo_de_produccion','valesalida','producto','cantidad','importe')
+    list_display = ('tipo_de_produccion','valesalida','producto','cantidad','importe','valesalida_dia')
+    list_filter = ('tipo_de_produccion','valesalida','producto','cantidad','importe','valesalida__dia')
+    search_fields = ('tipo_de_produccion','valesalida','producto','cantidad','importe','valesalida_dia')
     date_hierarchy = 'created'
-    ordering = ('tipo_de_produccion','created','valesalida') 
+    ordering = ('tipo_de_produccion','created','valesalida','valesalida__dia') 
+    def valesalida_dia(self,obj):
+        return obj.valesalida.dia
     #prepopulated_fields = {'importe': ('cantidad',)}  #no pincha con los float dice q no tienen atributo maxlength
     #raw_id_fields = ('producto',)  #no se que pasa si descomento esto, no veo cambio aparente
     

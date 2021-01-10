@@ -108,17 +108,18 @@ def AddFinals(request):
     if request.method =='POST':
         json_data = json.loads(request.POST.get('dataJSON'))
         for item in json_data['finals']:
-            product = Producto.objects.get(name = item['name'], precio = item['price'])
-            try:
-                final2save = Final.objects.get(dia = json_data['date'] , producto = product)
-            except:
-                final2save = Final(dia = json_data['date'], producto = product)
+            if item['amount'] != 0:
+                product = Producto.objects.get(name = item['name'], precio = item['price'])
+                try:
+                    final2save = Final.objects.get(dia = json_data['date'] , producto = product)
+                except:
+                    final2save = Final(dia = json_data['date'], producto = product)
 
-            final2save.cantidad= item['amount']
-            final2save.importe= item['value']
+                final2save.cantidad= item['amount']
+                final2save.importe= item['value']
 
-            final2save.save()
-            status = 'success'
+                final2save.save()
+                status = 'success'
         if status != 'success':
             status = 'error'
 

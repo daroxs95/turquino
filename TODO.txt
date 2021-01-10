@@ -43,3 +43,4 @@
 -fix los times, algunos usan la hora local, y otros una zona horaria, creo q es mejor ponerlo todo local
 -hacer q la lista de ordenar los productos sort_criteria, funcione si encuentra la cadena en el nombre y no si tiene un match exacto, con petrol_names to
 -al agregar multiples salidas, da error
+-cambiar el titulo de la vista de agregar traslado emitido

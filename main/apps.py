@@ -3,6 +3,6 @@ from django.apps import AppConfig
 
 class MainConfig(AppConfig):
     name = 'main'
-    def ready(self):
-        import main.signals
+    #def ready(self): #this will set signals containing the reset cache
+    #    import main.signals
 

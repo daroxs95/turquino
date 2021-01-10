@@ -120,7 +120,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+#this is needed for serve this statics in the urls, otherwise the result of pyinstaller does not serve the statics.
+STATIC_ROOT = os.path.join(BASE_DIR, 'main', 'static') 
 
+#cache
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',

@@ -15,20 +15,20 @@ class ProductoAdmin(admin.ModelAdmin):
 
 @admin.register(EntradaFT)
 class EntradaAdmin(admin.ModelAdmin):
-    list_display = ('Procedencia','No_documento')
-    list_filter = ('producto','Procedencia','No_documento')
-    search_fields = ('producto','Procedencia','No_documento')
-    ordering = ('dia','No_documento')
+    list_display = ('Procedencia','No_documento','dia')
+    list_filter = ('producto','Procedencia','No_documento','dia')
+    search_fields = ('producto','Procedencia','No_documento','dia')
+    ordering = ('dia','No_documento','dia')
     date_hierarchy = 'created'
     prepopulated_fields = {'identificador': ('No_documento','dia')}
 
 
 @admin.register(SalidaFT)
 class SalidaAdmin(admin.ModelAdmin):
-    list_display = ('Destino','No_documento')
-    list_filter = ('producto','Destino','No_documento')
-    search_fields = ('producto','Destino','No_documento')
-    ordering = ('dia','No_documento')
+    list_display = ('Destino','No_documento','dia')
+    list_filter = ('producto','Destino','No_documento','dia')
+    search_fields = ('producto','Destino','No_documento','dia')
+    ordering = ('dia','No_documento','dia')
     date_hierarchy = 'created' 
     prepopulated_fields = {'identificador': ('No_documento','dia')}
 

@@ -1,0 +1,61 @@
+{% extends "base.html" %}{% load simple_tags %}{% load inclusion_tags %}{% load filter_tags %}{% load staticfiles %}{% block title %}Nueva Factura/Traslado{% endblock %} {% block content %}
+<!DOCTYPE html>
+<html>
+<title>Turquino DB</title>
+
+<script src="{%static  '/scripts/dinamicFORMSET.js' %}"></script>
+<script src="{%static  '/scripts/dinamicFORMSETnuevaFT.js' %}"></script>
+
+<body class="w3-light-grey">
+
+
+    <!-- !PAGE CONTENT! -->
+
+    <div class="w3-container ">
+        <br>
+        <form  method="post" autocomplete="on">
+            {% csrf_token %}
+            <div class="w3-row w3-form w3-card-2">
+                {% renderFieldTooltiped entradaFTForm.tipo css_class='w3-col l3 m3'%}
+                {% renderFieldTooltiped entradaFTForm.Procedencia css_class='w3-col l3 m3'%}
+                {% renderFieldTooltiped entradaFTForm.No_documento css_class='w3-col l3 m3'%}
+                {% renderFieldTooltiped entradaFTForm.dia css_class='w3-col l3 m3'%}
+            </div>
+
+            <br>
+            <table class="w3-form w3-table w3-table-all w3-container w3-card-2 w3-animate-opacity dynamic-fformset">
+                <tr id='{{ formset.prefix }}-formset' class="dynamic-formset">
+                    {{ formset.management_form }} {% for form in formset.forms %}
+                    <td id="{{ form.prefix }}-row" class="dynamic-form text-center w3-border w3-animate-opacity">
+                        <div class='w3-row'>
+                            {% renderFieldTooltiped form.producto css_class='w3-col l11 m11 s11'%}
+
+                            <i title="Agregar nuevo produto" class="fa fa-plus w3-right w3-xlarge w3-text-grey new-product add-row-cross-btn" type="button?" value="add" to=""></i>
+                        </div>
+
+                        {% renderFieldTooltiped form.cantidad 'width:100%' %}
+                        {% renderFieldTooltiped form.importe 'width:100%' %}
+                        <i title="Eliminar producto" id="remove-{{ form.prefix }}-row" class="fa fa-minus w3-xlarge w3-text-grey delete-row delete-product w3-right" type="button?" from={{ formset.prefix }}></i>
+                    </td>
+                    {% endfor %}
+                </tr>
+            </table>
+            <br>
+            <button title="Agregar produto" class="w3-btn w3-gray add-row" type="button" to={{ formset.prefix }}>Agregar</button>
+            <button title="Guarda la producción en la Base de Datos" class="w3-btn" type="submit" value="save">Guardar</button>
+        </form>
+        <div id="AddProductModalForm" class="w3-modal">
+            <div class="w3-modal-content w3-card-8 w3-animate-bottom" style="max-width:600px">
+                {% renderTooltipedModalForm productoForm "AddProductModalForm"  modal=True action="/nuevo_product" %}
+            </div>
+        </div>
+        {% if saved %}
+            {% renderMessage "Exito" "El contenido fue guardado satisfactoriamente." %}
+        {% endif %}
+    </div>
+
+</body>
+
+</html>
+
+{% endblock %}

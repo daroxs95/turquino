@@ -1,0 +1,12 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+notes
+/.vscode
+db.sqlite3
+debug.log
+/__pycache__
+/main/__pycache__/*
+img_error_1.jpg
+errors.txt
+faltan.txt

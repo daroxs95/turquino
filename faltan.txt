@@ -1,9 +1,0 @@
-errores:
--arreglar q cuando annado una produccion predefinida, tengo q annadir un campo arriba con arina en cero, porq no puedo borrarlo
--borrar el numero de documento tras cada cosa annadida, o auto incrementarlo
--implementar un editor de las cantidades predefinidas, y/o separarlas de los tipos de produccion
--en los select en vez de con las teclas ir saltando de elemento, hacer q se filtren
--esconder el cartel de success cuando se edite algo en la page, para saber q ya se tiene listo otro elemento para annadir
--en nueva f/t cuando intentas annadir un producto q hace reload a la page se reenvia un post
--quitar el tipo Producto de los select q aparece como una opcion valida
--agrupar los productos por tipo en todas las vistas, creo q implementando un ordenado por defecto en la clase 

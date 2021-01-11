@@ -9,17 +9,18 @@ from main.models import Producto, Vale, ValeSalida,LastSession, Tipos, CantidadP
 from .forms import GetModelForm, ValeFormset, ValeSalidaForm, PickProductFormset, CantidadPredefinidaFormset
 from .forms import ValeFormsets, PickProductForm, CantidadPredefinidaFillForm, ProduccionForm
 from .forms import FTEntradaFormset, EntradaFTForm, ProductoForm, FTSalidaFormset, SalidaFTForm
-from main.templatetags.utils import retrive_lst , retrieve_predefined_production, create_DATA_for_formset_with_custom_forms, get_message_of_db_adding
-
+from main.templatetags.utils import retrive_lst , retrieve_predefined_production, create_DATA_for_formset_with_custom_forms
+from . import urls
 from django.shortcuts import render
 from django.views.generic import ListView
+from django.urls import reverse
+from django.contrib import messages
 
 # Create your views here.
-def MainFunc(request,actual_type = 'PN', desde = '2019-10-05', hasta ='2020-10-05'):
+def MainFunc(request):
     lsActualType = retrive_lst(LastSession,'actual_type')
     lstdesde = retrive_lst(LastSession,'desde')
     lsthasta = retrive_lst(LastSession,'hasta')
-
 
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -88,19 +89,14 @@ def AddProduct(request):
             form2save.save()
             status = 'success'
         if status != 'success':
-            status = 'error'
-    
-    message = get_message_of_db_adding(status)
+            messages.error(request, 'El contenido no fue guardado satisfactoriamente. Error desconocido.')
+        else:
+            messages.success(request, 'El contenido fue guardado satisfactoriamente.')
     
     if request.is_ajax():
-        return render(request,'message.html',{'title':message['title'],
-                                       'content':message['content'],
-                                       'color':message['color'],
-                                       })
+        return render(request,'includes/messages_handler.html')
     else:
-        return render(request,'addProduct_form.html',{'form':form,
-                                                    'message': message,
-                                                    })
+        return render(request,'addProduct_form.html',{'form':form,})
 
 def AddFinals(request):
     status = 'idle'
@@ -121,23 +117,20 @@ def AddFinals(request):
                 final2save.save()
                 status = 'success'
         if status != 'success':
-            status = 'error'
+            messages.error(request, 'El contenido no fue guardado satisfactoriamente. Error desconocido.')
+        else:
+            messages.success(request, 'El contenido fue guardado satisfactoriamente.')
 
-        message = get_message_of_db_adding(status)
-
-    return render(request,'message.html',{'title':message['title'],
-                                       'content':message['content'],
-                                       'color':message['color'],
-                                       })
+    return render(request,'includes/messages_handler.html')
 
 def NuevoVale(request):
     DATA = {
-        'formsets-TOTAL_FORMSETS':'2',
-        'formsets-0-TOTAL_FORMS': '5',
+        'formsets-TOTAL_FORMSETS':'1',
+        'formsets-0-TOTAL_FORMS': '1',
         'formsets-0-INITIAL_FORMS': '0',
-        'formsets-1-TOTAL_FORMS': '5',
-        'formsets-1-INITIAL_FORMS': '0',
-        'pickPFormset-TOTAL_FORMS': '2',
+        #'formsets-1-TOTAL_FORMS': '5',
+        #'formsets-1-INITIAL_FORMS': '0',
+        'pickPFormset-TOTAL_FORMS': '1',
         'pickPFormset-INITIAL_FORMS': '0',
         }
 
@@ -170,14 +163,16 @@ def NuevoVale(request):
                 status = 'success'
 
             if status != 'success':
-                status = 'error'
+                messages.error(request, 'El contenido no fue guardado satisfactoriamente. Error desconocido.')
+            else:
+                messages.success(request, 'El contenido fue guardado satisfactoriamente.')
+            
+            return HttpResponseRedirect(reverse('main:Nuevo_Vale'))
 
     return render(request,'nuevo_vale.html',{'pickProductFormset':pickProductFormset,
                                        'valesalidaform':valeSalidaForm,
-                                       #'tipos': Tipos.as_list(),
                                        'formsets':formsets,
                                        'cantidadPredefinidaForm':cantidadPredefinidaForm,
-                                       'message': get_message_of_db_adding(status),
                                        })
 
 def NuevaProduccion(request):
@@ -214,11 +209,14 @@ def NuevaProduccion(request):
             status = 'success'
 
         if status != 'success':
-            status = 'error'
+            messages.error(request, 'El contenido no fue guardado satisfactoriamente. Error desconocido.')
+        else:
+            messages.success(request, 'El contenido fue guardado satisfactoriamente.')
+        
+        return HttpResponseRedirect(reverse('main:Nueva_Produccion'))
 
     return render(request,'nueva_produccion.html',{'produccionForm':produccionForm,
                                        'formset':formset,
-                                       'message': get_message_of_db_adding(status),
                                        })
 
 def NuevoTrasladoEmitido(request):
@@ -249,13 +247,16 @@ def NuevoTrasladoEmitido(request):
             status = 'success'
 
         if status != 'success':
-            status = 'error'
+            messages.error(request, 'El contenido no fue guardado satisfactoriamente. Error desconocido.')
+        else:
+            messages.success(request, 'El contenido fue guardado satisfactoriamente.')
+        
+        return HttpResponseRedirect(reverse('main:Nuevo_Traslado_Emitido'))
 
     return render(request,'nuevo_traslado_emitido.html',{'salidaFTForm':salidaFTForm,
-                                       'formset':formset,
-                                       'productoForm':productoForm,
-                                       'message': get_message_of_db_adding(status),
-                                       })
+                                                        'formset':formset,
+                                                        'productoForm':productoForm,
+                                                         })
 
 def NuevaFT(request):
     DATA = {
@@ -285,11 +286,14 @@ def NuevaFT(request):
             status = 'success'
 
         if status != 'success':
-            status = 'error'
+            messages.error(request, 'El contenido no fue guardado satisfactoriamente. Error desconocido.')
+        else:
+            messages.success(request, 'El contenido fue guardado satisfactoriamente.')
+        
+        return HttpResponseRedirect(reverse('main:Nueva_FT'))
 
 
     return render(request,'nueva_ft.html',{'entradaFTForm':entradaFTForm,
                                        'formset':formset,
                                        'productoForm':productoForm,
-                                       'message': get_message_of_db_adding(status),
                                        })

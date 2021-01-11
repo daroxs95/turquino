@@ -56,7 +56,7 @@
                 <br>
                 <button title="Calcula los totales del vale" class="w3-btn w3-gray calc-totals" type="button" to="table-totals" name="calc_totals">Calcular totales</button>
                 <button title="Agrega una nueva fila vacía" class="w3-btn w3-gray add-formset" type="button" to={{ formsets.prefix }} name="add_blank">Agregar Producción en blanco</button>
-                <button title="Agrega una nueva fila con valores a escojer" class="w3-btn w3-gray add-formset-filled" type="button" to={{ formsets.prefix }} name="add_filled" >Agregar Producción</button>
+                <button title="Agrega una nueva fila con valores a escojer" class="w3-btn w3-gray add-formset-filled" type="button" to={{ formsets.prefix }} name="add_filled">Agregar Producción</button>
                 <button title="Guarda el vale en la Base de Datos" class="w3-btn" type="submit" value="save">Guardar</button>
         </form>
         </div>
@@ -77,9 +77,7 @@
             </div>
         </div>
 
-        {% if message %}
-            {% renderMessage message.title message.content message.color %}
-        {% endif %}
+        {% include 'includes/messages_handler.html' %}
     </div>
 
 </body>

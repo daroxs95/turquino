@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% load simple_tags %}{% load inclusion_tags %}{% load filter_tags %}{% load staticfiles %}{% block title %}Nueva Factura/Traslado{% endblock %} {% block content %}
+{% extends "base.html" %}{% load simple_tags %}{% load inclusion_tags %}{% load filter_tags %}{% load staticfiles %}{% block title %}Nuevo Traslado Emitido{% endblock %} {% block content %}
 <!DOCTYPE html>
 <html>
 <title>Turquino DB</title>
@@ -49,9 +49,9 @@
                 {% renderTooltipedModalForm productoForm "AddProductModalForm"  modal=True action="/nuevo_product" %}
             </div>
         </div>
-        {% if message %}
-            {% renderMessage message.title message.content message.color %}
-        {% endif %}
+
+        {% include 'includes/messages_handler.html' %}
+
     </div>
 
 </body>

@@ -157,13 +157,4 @@ def create_DATA_for_formset_with_custom_forms(prefix, list_of_Dict_of_fields):#l
 
   return DATA
 
-def get_message_of_db_adding(status):
-    if status == 'success':
-        message = { 'title': 'Exito', 'content': 'El contenido fue guardado satisfactoriamente.', 'color': 'green'}
-    elif status == 'error':
-        message = { 'title': 'Fallo', 'content': 'El contenido no fue guardado satisfactoriamente. Error desconocido', 'color': 'red'}
-    else:
-        message = False
-    return message
-
 defLST = {'actual_type': 'PN', 'desde': '2010-10-10','hasta': '2020-10-10'}

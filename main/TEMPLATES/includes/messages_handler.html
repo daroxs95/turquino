@@ -1,0 +1,20 @@
+{% load inclusion_tags %} 
+
+{% if messages %}
+    <div class="w3-panel custom-message">
+        <ul class="messages">
+            {% for message in messages %}
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} 
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                        {% renderMessage "ERROR" message "red" %} 
+                    </li>
+                {% endif %} 
+                {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %} 
+                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                        {% renderMessage "EXITO" message "green" %} 
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}

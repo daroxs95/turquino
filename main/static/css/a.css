@@ -101,3 +101,7 @@ a {
     animation-fill-mode: forwards;
     animation-delay: 1s, 5s;
 }
+
+.custom-message ul {
+    list-style-type: none;
+}

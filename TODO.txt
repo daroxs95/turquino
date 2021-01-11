@@ -1,23 +1,24 @@
+    -arreglar la identidad entre no_de_documento y fecha de los vales de salida, como el vale tiene identificador dependiende de ambos parece q en el templatetag no tengo en cuenta ese id y me sale el mismo vale con dos fechas en el modelo de consumo,ver img_error_1.jpg
+    -al agregar multiples salidas, da error, UPDT: el problema es cuando dejo la funcion addForm de js con el parametro blank_it en true q es su valor por defecto
+    -when reload page make the formsets managament form to be updated, because the count of total forms is not accurate,UPDT:con autocomplete="off" en el form tag se soluciona pero no se mantienen los datos introducidos al hacer reload,no he probado al intentar guardar
+    -fix la diferencia de horario, UPDT:empeze a usar datetime.now en vez de timezone.now
+    -fix navigation through tabs and enter, UPDT: presumo q esta fixed al menos para el enter en el modal de add predefined production
+    -el boton del form de annadir predefinido ejecuta el jquery aunq este mal rellenado el form, UPDT:presumo solved
+    -el classmethod names_as_list de productos, da bateo si la bd aun no existe,UPDT: presumo solved si se crea la bd haciendo dbsync
+    -creo q mi modificacion de dynamic formset ya funciona pero no estoy del todo seguro
     -fix the date changer por get quincena anterior and stuff, UPDT: eso no lo puedo hacer en la funcion date_changer, tiene q ser en el wizard q calcule todo lo de la quincena automatico, porq puedo querer intervalos no exactamentes de 15 dias
 -en el form de escojer desde hasta, cuando pongo el boton a la derecha con w3-right se escapa del form en pantallas pequennas
 -cambiar q los formsets los meto en tablas, ponerlos en algo parecido pero q cuando se queden sin espacio horizontal brinquen para abajo
 -fix the look of noscript
 -meter los metodos de save q son los q estan en las views en los forms , haciendo override de los default
--creo q mi modificacion de dynamic formset ya funciona pero no estoy del todo seguro
 -poner q el fformset pueda ser inicializado con DATA q no contenga toda la config inicial para cada uno de los formsets, no se si afecte su funcionamiento cunado se insatancia el formset desde request.POST
 -set something as minimal width for inputs
-    -arreglar la identidad entre no_de_documento y fecha de los vales de salida, como el vale tiene identificador dependiende de ambos parece q en el templatetag no tengo en cuenta ese id y me sale el mismo vale con dos fechas en el modelo de consumo,ver img_error_1.jpg
-    -when reload page make the formsets managament form to be updated, because the count of total forms is not accurate,UPDT:con autocomplete="off" en el form tag se soluciona pero no se mantienen los datos introducidos al hacer reload,no he probado al intentar guardar
-    -fix navigation through tabs and enter, UPDT: presumo q esta fixed al menos para el enter en el modal de add predefined production
 -para q la lista de productos de CantidadesPredefinidas, a la hora de annadirlo en el admin de django salga actualizada, tengo q reiniciar el server
-    -el boton del form de annadir predefinido ejecuta el jquery aunq este mal rellenado el form, UPDT:presumo solved
 -implementar mensajes enviados por el server en cada pagina
-    -fix la diferencia de horario, UPDT:empeze a usar datetime.now en vez de timezone.now
 -no se por q en los tipos tengo un campo key y otro verbose name
 -fix en los metodos de save en los formsets se guarda algo en la bd primero, y si lo demas no se puede guardar, ya lo primero se queda guardado
 -poner tooltips a los campos de los forms creados por django
 -cambiar el empty_label de un typedchoicefield
-    -el classmethod names_as_list de productos, da bateo si la bd aun no existe,UPDT: presumo solved si se crea la bd haciendo dbsync
 -implement landing page
 -poner el autocomplete off en los campos necesarios no en todo el form, creo q los campos son los del management form
 -implementar errores en todas las vistas, ya estan implementados, pero deberia ponerlos globales con context proccessor o con un middleware
@@ -42,5 +43,3 @@
 -refinar el admin para poder usarlo bien
 -fix los times, algunos usan la hora local, y otros una zona horaria, creo q es mejor ponerlo todo local
 -hacer q la lista de ordenar los productos sort_criteria, funcione si encuentra la cadena en el nombre y no si tiene un match exacto, con petrol_names to
--al agregar multiples salidas, da error
--cambiar el titulo de la vista de agregar traslado emitido

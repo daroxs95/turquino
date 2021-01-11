@@ -13,12 +13,12 @@
 
     <div class="w3-container ">
         <br>
-        <form  method="post" autocomplete="on">
+        <form method="post" autocomplete="on">
             {% csrf_token %}
             <div class="w3-row w3-form w3-card-2">
-                {% renderFieldTooltiped entradaFTForm.tipo css_class='w3-col l3 m3'%}
-                {% renderFieldTooltiped entradaFTForm.Procedencia css_class='w3-col l3 m3'%}
-                {% renderFieldTooltiped entradaFTForm.No_documento css_class='w3-col l3 m3'%}
+                {% renderFieldTooltiped entradaFTForm.tipo css_class='w3-col l3 m3'%} 
+                {% renderFieldTooltiped entradaFTForm.Procedencia css_class='w3-col l3 m3'%} 
+                {% renderFieldTooltiped entradaFTForm.No_documento css_class='w3-col l3 m3'%} 
                 {% renderFieldTooltiped entradaFTForm.dia css_class='w3-col l3 m3'%}
             </div>
 
@@ -33,8 +33,7 @@
                             <i title="Agregar nuevo produto" class="fa fa-plus w3-right w3-xlarge w3-text-grey new-product add-row-cross-btn" type="button?" value="add" to=""></i>
                         </div>
 
-                        {% renderFieldTooltiped form.cantidad 'width:100%' %}
-                        {% renderFieldTooltiped form.importe 'width:100%' %}
+                        {% renderFieldTooltiped form.cantidad 'width:100%' %} {% renderFieldTooltiped form.importe 'width:100%' %}
                         <i title="Eliminar producto" id="remove-{{ form.prefix }}-row" class="fa fa-minus w3-xlarge w3-text-grey delete-row delete-product w3-right" type="button?" from={{ formset.prefix }}></i>
                     </td>
                     {% endfor %}
@@ -46,12 +45,10 @@
         </form>
         <div id="AddProductModalForm" class="w3-modal">
             <div class="w3-modal-content w3-card-8 w3-animate-bottom" style="max-width:600px">
-                {% renderTooltipedModalForm productoForm "AddProductModalForm"  modal=True action="/nuevo_product" %}
+                {% renderTooltipedModalForm productoForm "AddProductModalForm" modal=True action="/nuevo_product" %}
             </div>
         </div>
-        {% if message %}
-            {% renderMessage message.title message.content message.color %}
-        {% endif %}
+        {% include 'includes/messages_handler.html' %}
     </div>
 
 </body>

@@ -37,9 +37,7 @@
     </div>
 
     </div>
-    {% if message %}
-        {% renderMessage message.title message.content message.color %}
-    {% endif %}
+    {% include 'includes/messages_handler.html' %}
 
 </body>
 

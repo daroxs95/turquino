@@ -1,0 +1,31 @@
+{% extends "base.html" %}{% load simple_tags %}{% load inclusion_tags %}{% load staticfiles %} {% block title %}Seleccion de Base de Datos{% endblock %} {% block content %}
+<!DOCTYPE html>
+<html>
+<title>Turquino DB</title>
+
+
+<body>
+    <!-- !PAGE CONTENT! -->
+    <div class="w3-container">
+        <div class=" contenedor-centered">
+            <h2> Seleccione una Base de Datos </h2>
+            <div class="w3-container w3-card-2 databases-list">
+                    {% for database in databases_list %}
+                        <div class="database-item">
+                            <button class="w3-btn w3-gray">
+                                {{database}}
+                            </button>
+                            <button class="w3-btn w3-yellow" >Descargar</button>
+                            <button class="w3-btn w3-red" >Eliminar</button>
+                        </div>
+                    {% endfor %}
+            </div>
+        </div>
+        <button class="w3-btn w3-green" >Nueva Base de Datos</button>
+        <button class="w3-btn" >Importar</button>
+    </div>
+</body>
+
+</html>
+
+{% endblock %}

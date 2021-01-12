@@ -1,20 +1,27 @@
+#global python imports
 import io
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect
-from django.utils import timezone
 import json
+import errno
+from os import path, makedirs
+from glob import glob
 from datetime import datetime
 
+#app imports
 from main.models import Producto, Vale, ValeSalida,LastSession, Tipos, CantidadPredefinida, Final
 from .forms import GetModelForm, ValeFormset, ValeSalidaForm, PickProductFormset, CantidadPredefinidaFormset
 from .forms import ValeFormsets, PickProductForm, CantidadPredefinidaFillForm, ProduccionForm
 from .forms import FTEntradaFormset, EntradaFTForm, ProductoForm, FTSalidaFormset, SalidaFTForm
 from main.templatetags.utils import retrive_lst , retrieve_predefined_production, create_DATA_for_formset_with_custom_forms
 from . import urls
+
+#django imports
 from django.shortcuts import render
 from django.views.generic import ListView
 from django.urls import reverse
 from django.contrib import messages
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect
+from django.utils import timezone
 
 # Create your views here.
 def MainFunc(request):
@@ -297,3 +304,21 @@ def NuevaFT(request):
                                        'formset':formset,
                                        'productoForm':productoForm,
                                        })
+
+def SelectDB(request):
+    databases_root_folder = path.join(path.expanduser("~"), ".turquino")
+
+    #trying to create folder if not exists
+    try:
+        makedirs(databases_root_folder)
+    except OSError as e:
+        # If error is not already exists, then raise the error else continue
+        if e.errno != errno.EEXIST:
+            raise
+    # Now do what you want with turquino
+    databases_list = glob(databases_root_folder + '/*.DBT')
+
+    if request.method =='POST':
+        pass
+    print(databases_list)
+    return render(request,'select_db.html', {'databases_list': databases_list})

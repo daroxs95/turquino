@@ -29,6 +29,7 @@ urlpatterns = [
     path('nueva_ft', views.NuevaFT, name = 'Nueva_FT'),
     path('nuevo_traslado_emitido', views.NuevoTrasladoEmitido, name = 'Nuevo_Traslado_Emitido'),
     path('nuevo_vale', views.NuevoVale, name = 'Nuevo_Vale'),
+    path('select_db', views.SelectDB, name = 'Select_DB'),
     path('',  views.MainFunc, name='Main_Page'),
     #path('',  cache_page(timeout=5*60, cache="main_cache")(views.MainFunc), name='Main_Page'),
 

@@ -21,12 +21,11 @@
 -cambiar el empty_label de un typedchoicefield
 -implement landing page
 -poner el autocomplete off en los campos necesarios no en todo el form, creo q los campos son los del management form
--implementar errores en todas las vistas, ya estan implementados, pero deberia ponerlos globales con context proccessor o con un middleware
 -el autocomplete on de el form en annadir FT, no funciona en chrome pero si en FF, lo quiero para q cuando se recargue la pagina se quede rellenado
 -el importe en los vales revisar para q lo uso, y ver si lo puedo autorrellenar
 -hacer q se autocalcule los finals, si no encuentra ninguno
 -informar cuando se vaya a annadir algun vale o factura q ya exista en vez de annadir cantidades, para no annadir cantidades dobles
--refactor js for cycles for .each and .forEach
+-refactor js "for cycles" for .each and .forEach
 -los valores del consumo en el mov de materias primas en valores, a veces da -0.0
 -poner "use strict" a todos los scripts
 -guardar finals despues de cada quincena
@@ -34,9 +33,6 @@
 -borrar el numero de documento tras cada cosa annadida, o auto incrementarlo
 -implementar un editor de las cantidades predefinidas, y/o separarlas de los tipos de produccion
 -en los select en vez de con las teclas ir saltando de elemento, hacer q se filtren
--esconder el cartel de success cuando se edite algo en la page, para saber q ya se tiene listo otro elemento para annadir, y q no sakga cuando se navega por la historia, hacia atras y adelante, no vuelve a enviar el form, pero el cartel sigue saliendo
--en nueva f/t cuando intentas annadir un producto q hace reload a la page se reenvia un post
--quitar el tipo Producto de los select q aparece como una opcion valida
 -agrupar los productos por tipo en todas las vistas, creo q implementando un ordenado por defecto en la clase 	
 -poner q cada cantidad predefinida sea identificada por el tipo de produccion y el producto
 -en vez de calcular los totales, cojer esa info de los finales q hayan ese dia, y si no hay entonces q lo calcule, tambien poner una opcion para calcularlo a la fuerza

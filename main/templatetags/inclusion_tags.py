@@ -17,6 +17,7 @@ sort_criteria = {
 	"aceite": 8,
 	"núcleo": 9,
 	"miel de abeja": 10,
+	"mejorador": 11,
 	"petróleo planta": 9999,
 	"petróleo planta (2)": 9999,
 	"petróleo regular": 99999,

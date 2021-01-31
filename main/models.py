@@ -19,7 +19,10 @@ class Producto(models.Model):
     last_exit = models.DateTimeField(default = datetime.now, editable = False)#0,0 if never used, check if on editable = false, it can be edited outside the django admin 
 
     objects = models.Manager()
-
+    
+    class Meta:
+       ordering=("name","precio")
+    
     @classmethod
     def names_as_list(self):       
         allPRODUCTS = self.objects.all()

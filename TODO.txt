@@ -39,3 +39,8 @@
 -refinar el admin para poder usarlo bien
 -fix los times, algunos usan la hora local, y otros una zona horaria, creo q es mejor ponerlo todo local
 -hacer q la lista de ordenar los productos sort_criteria, funcione si encuentra la cadena en el nombre y no si tiene un match exacto, con petrol_names to
+-al annadir vales, poner vacio el modelo, y annadir a gusto
+-cambiar el nombre de la vista de nuevo producto, y arreglar q el cuerpo del template no esta dentro de un div w3-container
+-agregar un dropdown a la hora de annadir una produccion para poder escojer un tipo q ya exista
+-no funciona la busqueda dentro dfe admin/vales salida
+-en agregar factura/traslado a la hora de annadir producto, annadirlo a la lista donde se escoge el tipo de producto, y luego procesarlo en la vista cuando se haga post, si no existe, crear producto nuevo

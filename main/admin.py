@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Producto, EntradaFT, ValeSalida, Vale, SalidaFT, FT, FTS, Final, LastSession, Tipos, CantidadPredefinida
-from .forms import CantidadPredefinidaAdminForm 
+from main.models import Producto, EntradaFT, ValeSalida, Vale, SalidaFT, FT, FTS, Final, LastSession, Tipos, CantidadPredefinida
+from main.forms import CantidadPredefinidaAdminForm 
 
 # Register your models here.
 @admin.register(Producto)

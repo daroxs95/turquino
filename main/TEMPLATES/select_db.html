@@ -6,23 +6,27 @@
 
 <body>
     <!-- !PAGE CONTENT! -->
-    <div class="w3-container">
+    <div class="w3-container w3-animate-opacity">
         <div class=" contenedor-centered">
-            <h2> Seleccione una Base de Datos </h2>
+            <h2 style="text-align: center2;padding-left:1em;"> Seleccione una Base de Datos </h2>
             <div class="w3-container w3-card-2 databases-list">
                     {% for database in databases_list %}
                         <div class="database-item">
-                            <button class="w3-btn w3-gray">
+                            <i class="select-database-button w3-ripple">
                                 {{database}}
-                            </button>
-                            <button class="w3-btn w3-yellow" >Descargar</button>
-                            <button class="w3-btn w3-red" >Eliminar</button>
+                            </i>
+                            <div class="database-item-controls">
+                                <i id="download" class="fa fa-download w3-xlarge w3-text-gray delete-row"></i>
+                                <i id="delete" class="fa fa-trash w3-xlarge w3-text-red delete-row"></i>
+                            </div>
                         </div>
                     {% endfor %}
             </div>
+            <div class="databases-list-sibling-controls">
+                <button class="w3-btn" style="background-color: rgb(0, 92, 92)">Nueva BD</button>
+                <button class="w3-btn" >Importar</button>
+            </div>
         </div>
-        <button class="w3-btn w3-green" >Nueva Base de Datos</button>
-        <button class="w3-btn" >Importar</button>
     </div>
 </body>
 

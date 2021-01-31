@@ -1,0 +1,36 @@
+{% load staticfiles %}{% load simple_tags %}
+
+<ul class="w3-container w3-navbar w3-teal">
+    <li class="w3-dropdown-hover w3-teal">
+        <a>Consumos</a>
+        <ul class="w3-dropdown-content">
+            {% for i in tipos %}
+            <a href=/?actualtype={% get_value_from_index i 0 %}>{% get_value_from_index i 1 %}</a> {% endfor %}
+        </ul>
+    </li>
+    <li class="w3-dropdown-hover w3-teal">
+        <a>Modelos</a>
+        <ul class="w3-dropdown-content">
+            <a href=/?actualtype=MMP>Movimiento de materias primas</a>
+            <a href=/?actualtype=MMPV>Movimiento de materias primas en valores</a> {% comment %} <a href=/?actualtype=IC>Indices de consumo</a> {% endcomment %}
+        </ul>
+    </li>
+    <li><a href=/select_db>Bases de Datos</a></li>
+    <li><a href=/admin>Admin</a></li>
+
+    <li class="w3-dropdown-hover w3-teal w3-right">
+        <a>Agregar</a>
+        <ul class="w3-dropdown-content" style="right:0">
+            <a href=/nuevo_vale>Vale</a>
+            <a href=/nueva_ft>Factura/Traslado</a>
+            <a href=/nuevo_traslado_emitido>Traslado emitido</a>
+            <a href=/nueva_produccion>Producción</a>
+            <a href=/nuevo_product>Producto</a>
+        </ul>
+    </li>
+
+    <div class="zoom-controls w3-right">
+        <i class="zoom-in fa fa-search-plus"></i>
+        <i class="zoom-out fa fa-search-minus"></i>
+    </div>
+</ul>

@@ -84,7 +84,9 @@ class FTEntradaForm(forms.ModelForm):
                                                    "required":""}),
                         'importe':forms.NumberInput(attrs={'class':'w3-input w3-border','placeholder':'Importe',
                                                    "required":""})
-                                                   }        
+                                                   }      
+    #producto = forms.ChoiceField(choices=Producto.objects.order_by('name'), widget = forms.Select(attrs={'class':'w3-select w3-border',"required":""}))  
+
     def __init__(self, *args, **kwargs):
         super(FTEntradaForm, self).__init__(*args, **kwargs)
         self.fields['producto'].empty_label = 'Producto'

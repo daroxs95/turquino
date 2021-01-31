@@ -108,28 +108,71 @@ a {
 
 .databases-list {
     display: flex;
-    width: 70%;
     flex-direction: column;
     padding: 2em;
-    margin: 2em;
-    align-self: center;
+    margin: 1em 0em;
     align-content: center;
-    justify-content: center;
+    justify-content: space-evenly;
 }
 
 .databases-list button {
-    margin: 1em;
+    margin: 0.4em 0em;
+    overflow: hidden;
 }
 
 .database-item {
+    margin: 0.5em 0em;
     display: flex;
-    flex-direction: row;
+    flex-flow: row wrap;
     align-content: flex-end;
+    justify-content: space-between;
 }
 
 .contenedor-centered {
+    width: 100%;
+    margin: auto;
     display: flex;
     flex-direction: column;
     align-content: center;
     justify-content: center;
+    align-self: center;
+    justify-self: center;
+}
+
+@media screen and (min-width: 480px) {
+    .contenedor-centered {
+        width: 70%;
+    }
+}
+
+.database-item-controls {
+    display: flex;
+    margin: auto 0em;
+    justify-self: flex-end;
+    align-self: flex-end;
+}
+
+.database-item-controls i {
+    margin-left: 0.5em;
+}
+
+#download:hover {
+    color: rgb(0, 92, 92)!important;
+}
+
+.select-database-button:hover {
+    cursor: pointer;
+    background-color: teal;
+    color: honeydew;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 60px 200px 0 rgba(0, 0, 0, 0.19);
+}
+
+.select-database-button {
+    border: none;
+    padding: 0.5em;
+    user-select: none;
+}
+
+.databases-list-sibling-controls {
+    padding: 2em;
 }

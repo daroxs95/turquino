@@ -2,30 +2,33 @@
 <!DOCTYPE html>
 <html>
 
+<link rel="shortcut icon" href="{% static 'favicon.png' %}" />
 <link href="{%static  '/css/jquery-ui.css' %}" rel="stylesheet">
-<script src="{%static  '/scripts/jquery-3.4.1.js' %}"></script>
-<script src="{%static  '/scripts/jquery-ui.js' %}"></script>
+<script src="{%static  '/scripts/jQuery/jquery-3.4.1.js' %}"></script>
+<script src="{%static  '/scripts/jQuery/jquery-ui.js' %}"></script>
+
 <script src="{%static  '/scripts/jQuery_mios/functions.js' %}"></script>
+{% comment %}
+<script src="{%static  '/turbolinks/turbolinks.js' %}"></script> {% endcomment %}
 
 <link href="{%static  '/css/w3.css' %}" rel="stylesheet">
 <link href="{%static  '/css/a.css' %}" rel="stylesheet">
 <link href="{%static  '/css/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
 <link href="{%static  '/css/metrize_icons/style.css' %}" rel="stylesheet">
 
-<link rel="shortcut icon" href="{% static 'favicon.png' %}"/>
-
 <head>
     <title>{% block title %}Main{% endblock %}</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=0.5, maximum-scale=2.0, user-scalable=yes">
     <style>
         body,
         h1,
         h2,
         h3,
         h4,
-        h5 {
-            font-family: "Verdana", sans-serif
+        h5,
+        * {
+            font-family: "Verdana", sans-serif;
         }
     </style>
 </head>
@@ -35,40 +38,17 @@
 
 </div>
 
-<body class="w3-light-grey">
+<body class="w3-light-grey" id="Body">
     <noscript class="w3-padding-0 w3-red">
         <div class="w3-padding-0 w3-red">
             <h2>La página que estás viendo requiere para su funcionamiento el uso de JavaScript.
             Si lo has deshabilitado intencionadamente, por favor vuelve a activarlo.</h2>
         </div>
-    </noscript>
-
-    <ul class="w3-container w3-navbar w3-teal">
-        <li class="w3-dropdown-hover w3-teal">
-            <a>Consumos</a>
-            <ul class="w3-dropdown-content">
-                {% for i in tipos %}
-                <a href=/?actualtype={% get_value_from_index i 0 %}>{% get_value_from_index i 1 %}</a> {% endfor %}
-            </ul>
-        </li>
-        <li><a href=/?actualtype=MMP>Movimiento de materias primas</a></li>
-        <li><a href=/?actualtype=MMPV>Movimiento de materias primas en valores</a></li>
-        <li><a href=/?actualtype=IC>Indices de consumo</a></li>
-        <li><a href=/admin>Admin</a></li>
-        <li class="w3-dropdown-hover w3-teal w3-right">
-            <a>Agregar</a>
-            <ul class="w3-dropdown-content" style="right:0">
-                <a href=/nuevo_vale>Vale</a>
-                <a href=/nueva_ft>Factura/Traslado</a>
-                <a href=/nuevo_traslado_emitido>Traslado emitido</a>
-                <a href=/nueva_produccion>Producción</a>
-                <a href=/nuevo_product>Producto</a>
-            </ul>
-        </li>
-
-    </ul>
-    <div class="w3-container">
-        {% block content %} {% endblock %}
+    </noscript> 
+    {% include 'includes/nav_header.html' %} 
+    <div class="zoomable">
+        {% block content %} 
+        {% endblock %}
     </div>
 </body>
 

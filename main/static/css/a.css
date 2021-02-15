@@ -176,3 +176,18 @@ a {
 .databases-list-sibling-controls {
     padding: 2em;
 }
+
+.zoom-controls {
+    padding: 8px 16px;
+    user-select: none;
+}
+
+.zoom-controls .fa {
+    font-size: 20px;
+}
+
+.zoom-controls .fa:hover {
+    color: rgb(160, 157, 157);
+    text-shadow: 0.5em;
+    cursor: pointer;
+}

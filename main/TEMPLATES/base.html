@@ -44,11 +44,9 @@
             <h2>La página que estás viendo requiere para su funcionamiento el uso de JavaScript.
             Si lo has deshabilitado intencionadamente, por favor vuelve a activarlo.</h2>
         </div>
-    </noscript> 
-    {% include 'includes/nav_header.html' %} 
-    <div class="zoomable">
-        {% block content %} 
-        {% endblock %}
+    </noscript> {% include 'includes/nav_header.html' %}
+    <div id="zoomable">
+        {% block content %} {% endblock %}
     </div>
 </body>
 

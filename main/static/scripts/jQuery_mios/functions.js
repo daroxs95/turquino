@@ -114,21 +114,27 @@ function init() {
     $(".zoom-out").on('click', () => {
         zoomOut();
     });
-
+    $(".zoom-reset").on('click', () => {
+        zoomReset();
+    });
 
     var personal_zoom = 100;
 
     function zoomIn() {
         personal_zoom = personal_zoom + 10;
-        //document.body.style.zoom = personal_zoom + '%';
-        document.getElementsByClassName('zoomable').style.zoom = personal_zoom + '%';
+        document.getElementById('zoomable').style.zoom = personal_zoom + '%';
         return false;
     }
 
     function zoomOut() {
         personal_zoom = personal_zoom - 10;
-        //document.body.style.zoom = personal_zoom + '%';
-        document.getElementsByClassName('zoomable').style.zoom = personal_zoom + '%';
+        document.getElementById('zoomable').style.zoom = personal_zoom + '%';
+        return false;
+    }
+
+    function zoomReset() {
+        personal_zoom = 100;
+        document.getElementById('zoomable').style.zoom = personal_zoom + '%';
         return false;
     }
 };

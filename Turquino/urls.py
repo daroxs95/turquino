@@ -20,7 +20,7 @@ from . import settings
 #import jet
 
 urlpatterns = [
-    path('jet/', include('jet.urls', 'jet')),
+    #path('jet/', include('jet.urls', 'jet')),
     #path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
     path('admin/', admin.site.urls),
     path('', include('main.urls')),

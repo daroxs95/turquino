@@ -45,3 +45,6 @@
 -no funciona la busqueda dentro dfe admin/vales salida
 -en agregar factura/traslado a la hora de annadir producto, annadirlo a la lista donde se escoge el tipo de producto, y luego procesarlo en la vista cuando se haga post, si no existe, crear producto nuevo
 -al annadir vales puedo annadir sin rellenar el tipo de produccion por lo q da error en el server
+-need to mantain the zoom throught links
+-poner la suma de los importes en Nueva Factura/Traslado
+-limpiar los modales despues de usarlos

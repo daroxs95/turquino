@@ -13,7 +13,9 @@
 
     <div class="w3-container ">
         <br>
-        <form method="post" autocomplete="off">
+        <!-- the autocomplete was off when in the server was not implemented a POST/REDIRECT, now is set to on 
+        to be able to recover the past forms(vales) if required to reutilice data, not really tested if any drawback  -->
+        <form method="post" autocomplete="on">
             {% csrf_token %}
             <div class="w3-container w3-form w3-card-2">
                 {% renderFieldTooltiped valesalidaform.No_documento %} {% renderFieldTooltiped valesalidaform.dia %}

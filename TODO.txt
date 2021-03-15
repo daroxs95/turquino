@@ -48,3 +48,5 @@
 -need to mantain the zoom throught links
 -poner la suma de los importes en Nueva Factura/Traslado
 -limpiar los modales despues de usarlos
+-en mov por valores en la suma de las entradas a veces salen numeros largos, necesito redondear
+-make an autobackup when save finals
